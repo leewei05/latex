@@ -1,0 +1,74 @@
+% documentclass sets the layout of this document
+% article: short documents without chapters
+% report: longer documents with chapters, single-sided printing
+% book: longer documents with chapters, double-sided printing, with front- and back-matter (for example an index)
+% letter: correspondence with no sections
+% slides: for presentations (but see below)
+\documentclass[a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+
+\begin{document}
+\section{Title of the first sections}
+
+Text in the first section.
+
+\subsection{Title of the subsection}
+
+Text in the subsection.
+
+\subsubsection{Title of the subsubsection}
+
+Text in this subsubsection.
+
+\subsubsection{Ordered list}
+
+\begin{enumerate}
+  \item 1st entry
+  \item 2nd entry
+  \item 3rd entry
+\end{enumerate}
+
+
+\subsubsection{Unordered list}
+
+\begin{itemize}
+  \item 1st entry
+  \item 2nd entry
+  \item 3rd entry
+\end{itemize}
+
+\subsubsection{Paragraph}
+
+\paragraph{
+  yeah sir. A quick brown fox jump over a lazy dog.
+}
+
+\subsubsection{Subparagraph}
+
+\subparagraph{
+  Oh wow. A quick brown fox jump over a lazy dog.
+}
+
+\section{Some words}
+
+This is a lot of filler which is going to demonstrate how LaTeX hyphenates
+material, and which will be able to give us at least one hyphenation point.
+This is a lot of filler which is going to demonstrate how LaTeX hyphenates
+material, and which will be able to give us at least one hyphenation point.
+
+\section{Math!}
+
+\subsection{Asymptotic Notation}
+
+\begin{enumerate}
+  \item Big O notation: $\mathcal{O}(n)$
+  \item Big Theta notation: $\Theta(n)$
+  \item Big Omega notation: $\Omega(n)$
+\end{enumerate}
+
+
+
+\end{document}
+
+
