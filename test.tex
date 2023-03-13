@@ -7,6 +7,7 @@
 \documentclass[a4paper]{article}
 \usepackage[T1]{fontenc}
 \usepackage[english]{babel}
+\usepackage{clrscode4e} % Algorithm template from Introduction to Algorithms 4th
 
 \begin{document}
 \section{Title of the first sections}
@@ -67,7 +68,46 @@ material, and which will be able to give us at least one hyphenation point.
   \item Big Omega notation: $\Omega(n)$
 \end{enumerate}
 
+\begin{quote}
+  test quote
+\end{quote}
 
+\textbf{oh wow}
+
+\[
+  \frac{n + 1}{n + 2}
+\]
+
+$\left(x + y\right)$
+
+Using equation environment:
+
+\begin{equation}
+  \frac{n + 1}{n + 2}
+\end{equation}
+
+Test continuous mode
+
+\subsection{Algorithms}
+
+\begin{codebox}
+\Procname{$\proc{Insertion-Sort}(A)$}
+\li \For $j \gets 2$ \To $\attrib{A}{length}$
+\li \Do
+$\id{key} \gets A[j]$
+\li \Comment Insert $A[j]$ into the sorted sequence
+$A[1 \twodots j-1]$.
+\li $i \gets j-1$
+\li \While $i > 0$ and $A[i] > \id{key}$
+\li \Do
+$A[i+1] \gets A[i]$
+\li $i \gets i-1$
+\End
+\li $A[i+1] \gets \id{key}$
+\End
+\end{codebox}
+
+This is my first \LaTeX\ typesetting example.
 
 \end{document}
 
