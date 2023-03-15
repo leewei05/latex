@@ -3,7 +3,7 @@
 \usepackage[english]{babel}
 \usepackage{clrscode4e} % Algorithm template from Introduction to Algorithms 4th
 \usepackage[left=3cm,right=3cm,top=0cm,bottom=2cm]{geometry} % page settings
-\usepackage{amsthm} % provides many mathematical environments & tools
+\usepackage{amsthm, amsmath} % provides many mathematical environments & tools
 
 \newenvironment{solution}
   {\begin{proof}[Solution]}
@@ -36,11 +36,18 @@ Let $f(n) + g(n)$ be asymptotically nonnegative functions. Using the basic defin
 \begin{proof}
   If $f(n) + g(n)$ are asymptotically nonnegative functions, then we can conclude that
   \begin{equation}
-    \frac{f(n) + g(n)}{2} \le \max(f(n), g(n)) \le f(n) + g(n) \label{eq:1}
+    0 \le \frac{f(n) + g(n)}{2} \le \max(f(n), g(n)) \le f(n) + g(n) \label{eq:1}
   \end{equation}
 
   By comparing equation \ref{eq:1} with the definition of $\Theta$, we have now found our $c_1, c_2$, where $c_1 = 1/2, c_2 = 1$. Thus, we can conclude that $\max(f(n), g(n)) = \Theta(f(n) + g(n))$.
 \end{proof}
+
+\subsection*{3.2-2}
+Explain why the statement, "The running time of algorithm A is at least $\mathcal{O}(n^2)$," is meaningless.
+
+\begin{solution}
+  We denote "Big $\mathcal{O}$ of $n$" notation as no faster than $n$.
+\end{solution}
 \end{document}
 
 
