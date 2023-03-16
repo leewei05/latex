@@ -6,6 +6,16 @@
 \usepackage{amsthm, amsmath} % provides many mathematical environments & tools
 \usepackage{tikz} % draw pictures
 \usepackage{tabularray}
+\usepackage[noend]{algorithmic}
+\usepackage{tabularx}
+\usepackage[noend]{algorithmic}
+\usepackage{algorithm}
+\usepackage{arydshln}
+\usepackage{forest}
+
+%-----------------------------------------------------------
+% Custom commands
+%-----------------------------------------------------------
 \usetikzlibrary{positioning,matrix, arrows.meta}
 \tikzset{box/.style={draw, thick, minimum width=1cm, minimum height=1cm}}
 
@@ -27,6 +37,9 @@
 
 \setlength{\parindent}{0mm}
 
+%-----------------------------------------------------------
+% Document
+%-----------------------------------------------------------
 \begin{document}
 
 \title{Algorithms: Homework 1}
@@ -35,39 +48,72 @@
 \maketitle
 
 \subsection*{Problem 1}
-\begin{codebox}
-\Procname{$\proc{Insertion-Sort}(A)$}
-\li \For $j \gets 2$ \To $\attrib{A}{length}$
-\li \Do
-$\id{key} \gets A[j]$
-\li \Comment Insert $A[j]$ into the sorted sequence
-$A[1 \twodots j-1]$.
-\li $i \gets j-1$
-\li \While $i > 0$ and $A[i] > \id{key}$
-\li \Do
-$A[i+1] \gets A[i]$
-\li $i \gets i-1$
-\End
-\li $A[i+1] \gets \id{key}$
-\End
-\end{codebox}
 
 \begin{solution}
+Psuedocode for selection sort: \\
+\noindent
+  \begin{tabularx}{\textwidth}{>{\footnotesize}rXcc@{}}
+    \\[-1.5ex] \hline
+    \multicolumn{2}{@{}l}{\refstepcounter{algorithm}\label{selection} $\proc{Selection-Sort}(A,n)$} & Cost & Times \\
+    \hline
+     1: & \For $i \gets 1$ \To $\attrib{A}{length} -1$ & c1 & $n$ \\
+     2: & \quad \textbf{min} $\gets i$ & c2 & $n - 1$ \\
+     3: & \quad \For $j \gets i + 1$ \To $\attrib{A}{length}$ & c3 & $\sum_{i=1}^{n - 1}(t_i)$\\
+     4: & \quad\quad \If $A[j] < $A[\textbf{min}$]$ & c4 & $\sum_{i=1}^{n - 1}(t_i - 1)$ \\
+     5: & \quad\quad\quad \textbf{min} $\gets j$ & c5 & $\sum_{i=1}^{n - 1}(t_i - 1)$ \\
+     6: & \quad \If $i \neq \textbf{min}$ & c6 & $n - 1$\\
+     7: & \quad\quad exchange $A[i]$ with $A[\textbf{min}]$ & c7 & $n - 1$ \\
+\hline
+  \\ [-0.2cm]
+  \end{tabularx}
+
+  The total running time of selection sort is:
+
+  \begin{align*}
+    T(n) &= c_1 n + c_2(n - 1) + c_3\sum_{i = 1}^{n - 1}(t_i) +c_4\sum_{i = 1}^{n - 1}(t_i - 1) + c_5\sum_{i = 1}^{n - 1}(t_i - 1) + c_6(n - 1) + c_7(n - 1) \\
+         & \sum_{i = 1}^{n - 1}(t_i) = \frac{(1+ n - 1)(n - 1)}{2} = \frac{n^2 - n}{2} \\
+         & \sum_{i = 1}^{n - 1}(t_i - 1) = \frac{(1+ n - 1)(n - 1)}{2} -(n - 1)= \frac{n^2 - n}{2} - n + 1 = \frac{n^2 - 3n + 2}{2}
+  \end{align*}
+
+  We first analyze the \textbf{best-case} running time of this algorithm. Let's assume the input array is a sorted sequence in increasing order. Every $A[i]$ we selected in line $2$ is already the smallest element in $A$. Thus, this algorithm will not execute line $5, 7$ under this condition. However, this algorithm will still iterate the whole sequence, which starts from index $j$, in line $3$ because it will need to check that $A[\textbf{min}]$ is the smallest element.
+  \begin{align*}
+    T(n)  &= c_1 n + c_2(n - 1) + c_3(\frac{n^2 - n}{2}) + c_4(\frac{n^2 - 3n + 2}{2}) + c_6(n -1)&&\text{$c_5 = c_7 = 0$}\\
+         &= (\frac{c_3}{2} + \frac{c_4}{2}) n^2 + (c_1 + c_2 - \frac{c_3}{2} - \frac{3}{2}c_4 + c_6)n + (c_4 - c_2 - c_6) \\
+  \end{align*}
+
+  We conclude the \textbf{best-case} running time for selection sort is $\Theta(n^2)$ since $n^2$ is the dominant term in $T(n)$. \qed
+
+  Additionally, we assume the input array as a decreasing sorted sequence. This is the worst-case scenario because the program will execute line $5$ whenever it compares $A[\textbf{min}]$ with $A[j]$ in line $4$.
+  \begin{align*}
+    T(n) &=c_1 n + c_2(n - 1) + c_3(\frac{n^2 - n}{2}) + c_4(\frac{n^2 - 3n + 2}{2})+c_5(\frac{n^2 - 3n + 2}{2}) + c_6(n - 1) + c_7(n - 1)\\
+         &= (\frac{c_3}{2} + \frac{c_4}{2} + \frac{c_5}{2})n^2 + (c_1 + c_2 - \frac{c_3}{2} - \frac{3}{2}c_4 - \frac{3}{2}c_5 + c_6 + c_7)n + (c_4 + c_5 - c_2 - c_6 - c_7)
+  \end{align*}
+
+  Therefore, we conclude that the \textbf{worst-case} running time for selection sort is still $\Theta(n^2)$.
 \end{solution}
 
 \subsection*{Problem 2}
-\begin{codebox}
-\Procname{$\proc{Bubble-Sort}(A)$}
-\li \For $i \gets 1$ \To $\attrib{A}{length} - 1$
-\li \Do \For $j \gets \attrib{A}{length}$ \Downto $i + 1$
-\li \Do \If $A[j] < A[j-1]$
-\li \Then exchange $A[j]$ with $A[j-1]$
-\End
-\End
-\End
-\end{codebox}
-
 \begin{solution}
+Psuedocode for bubble sort: \\
+\noindent
+  \begin{tabularx}{\textwidth}{>{\footnotesize}rXcc@{}}
+    \\[-1.5ex] \hline
+    \multicolumn{2}{@{}l}{\refstepcounter{algorithm}\label{bubble} $\proc{Bubble-Sort}(A,n)$} & Cost & Times \\
+    \hline
+     1: & \For $i \gets 1$ \To $\attrib{A}{length} -1$ & c1 & $n$ \\
+     2: & \quad \For $j \gets \attrib{A}{length}$ \Downto $i + 1$ & c2 & $\sum_{i = 1}^n(t_i)$\\
+     3: & \quad\quad \If $A[j] < A[j - 1]$ & c3 & $\sum_{i = 1}^n(t_i - 1)$\\
+     4: & \quad\quad\quad exchange $A[j]$ with $A[j - 1]$ & c4 & $\sum_{i = 1}^n(t_i - 1)$ \\
+\hline
+  \\ [-0.2cm]
+  \end{tabularx}
+
+  The total running time of bubble sort is:
+
+  \begin{align*}
+    T(n)  &= c_1 n + c_2\sum_{i = 2}^{n - 1}(t_i) + c_3\sum_{i = 2}^{n - 1}(t_i - 1) + c_4\sum_{i = 2}^{n - 1}(t_i - 1) \\
+  \end{align*}
+
 \end{solution}
 
 \subsection*{Problem 3}
@@ -94,10 +140,85 @@ $A[i+1] \gets A[i]$
 \end{solution}
 
 \begin{solution}
-  (b)
+  (b) Let $f(n) = \log_3^2 n, g(n) = \sqrt[3]{n}$. If we can show that $\lim\limits_{n \to \infty}\frac{f(n)}{g(n)} = 0$, then we prove that $f(n) = o(g(n))$.
+  \begin{align*}
+    \lim\limits_{n \to \infty}\frac{f(n)}{g(n)} &= \lim\limits_{n \to \infty}\frac{\log_3^2 n}{\sqrt[3]n} \\
+                                                &=  \\
+  \end{align*}
 \end{solution}
 
 \subsection*{Problem 5}
+
+\begin{solution}
+Recursion tree of $T(n) = 4T(n/6) + T(n/3) + n/2$
+\[
+    \begin{forest}
+    for tree={
+        l sep=2.5em
+    }
+      [$c\frac{n}{2}$,name=L1
+      [$c\left(\frac{n}{4}\right)^2$
+       [$c\left(\frac{n}{16}\right)^2$
+        [$\vdots$]
+        [$\vdots$]
+        [$\vdots$]
+       ]
+       [$c\left(\frac{n}{16}\right)^2$
+        [$\vdots$]
+        [$\vdots$]
+        [$\vdots$]
+       ]
+       [$c\left(\frac{n}{16}\right)^2$
+        [$\vdots$]
+        [$\vdots$]
+        [$\vdots$]
+       ]
+      ]
+      [$c\left(\frac{n}{4}\right)^2$
+       [$c\left(\frac{n}{16}\right)^2$
+        [$\vdots$]
+        [$\vdots$]
+        [$\vdots$]
+       ]
+       [$c\left(\frac{n}{16}\right)^2$
+        [$\vdots$]
+        [$\vdots$]
+        [$\vdots$]
+       ]
+       [$c\left(\frac{n}{16}\right)^2$
+        [$\vdots$]
+        [$\vdots$]
+        [$\vdots$]
+       ]
+      ]
+      [$c\left(\frac{n}{4}\right)^2$, name=L2
+       [$c\left(\frac{n}{16}\right)^2$
+        [$\vdots$]
+        [$\vdots$]
+        [$\vdots$]
+       ]
+       [$c\left(\frac{n}{16}\right)^2$
+        [$\vdots$]
+        [$\vdots$]
+        [$\vdots$]
+       ]
+       [$c\left(\frac{n}{16}\right)^2$, name=L3
+        [$\vdots$]
+        [$\vdots$]
+        [$\vdots$]
+       ]
+      ]
+     ]
+     \node (a) [right=of L1 -| L3.east] {$c\frac{n}{2}$};
+    \node (b) [right=of L2 -| L3.east] {level 2};
+    \node (c) [right=of L3.east]       {level 3};
+    \node (d) [left=of L1] {$T(n)$};
+    \draw[dashed,->] (L1) -- (a);
+    \draw[dashed,->] (L2) -- (b);
+    \draw[dashed,->] (L3) -- (c);
+    \end{forest}
+  \]
+\end{solution}
 
 \subsection*{Problem 6}
 
@@ -171,7 +292,7 @@ $A[i+1] \gets A[i]$
 \end{solution}
 
 \begin{solution}
-  (b) $\proc{HEAPSORT(A)}$ \\
+  (b) $\proc{HEAPSORT(A)}$: \\
 \centerline{
 \begin{tblr}{
                 column{1-Y}={20pt, c, colsep=3pt, font={\bfseries}},
@@ -207,19 +328,29 @@ $A[i+1] \gets A[i]$
             3&2&1&4&5&6&7&8&9&10& i = 4 \\
             2&1&3&4&5&6&7&8&9&10& i = 3 \\
             1&2&3&4&5&6&7&8&9&10& i = 2 \\
-            1&2&3&4&5&6&7&8&9&10& Heapsort complete\\
+            1&2&3&4&5&6&7&8&9&10& Final \\
         \end{tblr}
 }
 \end{solution}
 
 \subsection*{Problem 10}
 
-\begin{codebox}
-\Procname{$\proc{HEAP-DELETE}(A,i)$}
-\li \If
-\li \End
-\End
-\end{codebox}
+\begin{solution}
+Psuedocode for heap delete: \\
+\noindent
+  \begin{tabularx}{\textwidth}{>{\footnotesize}rX@{}}
+    \\[-1.5ex] \hline
+    \multicolumn{2}{@{}l}{\refstepcounter{algorithm}\label{heap} $\proc{HEAP-DELETE}(A,i)$} \\
+    \hline
+     1: & \If $i > \attrib{A}{heap-size}$\\
+     2: & \quad \Error $A[i]$ does not exist \\
+     3: & $A[i] = A[\attrib{A}{heap-size}]$ \\
+     4: & $\attrib{A}{heap-size} = \attrib{A}{heap-size} - 1$ \\
+     5: & $\proc{MAX-HEAPIFY}(A, i)$ \\
+\hline
+  \\ [-0.2cm]
+  \end{tabularx}
+\end{solution}
 \end{document}
 
 
