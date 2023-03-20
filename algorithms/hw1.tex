@@ -48,7 +48,7 @@
 \maketitle
 
 \subsection*{Problem 1}
-
+Consider the following selection sort algorithm: finding the smallest element and exchanging it with $A[1]$, and then finding the second smallest element and exchanging it with $A[2]$. Continue in this manner for the first $n-$1 elements of $A$. What are the best-case running time and worst-case running time for this algorithm? Simulate what we did for insertion sort to give your conclusion.
 \begin{solution}
 Psuedocode for selection sort: \\
 \noindent
@@ -93,6 +93,7 @@ Psuedocode for selection sort: \\
 \end{solution}
 
 \subsection*{Problem 2}
+What are the best-case running time and worst-case running time for bubblesort? Please refer to the following pseudo-code of bubblesort. Simulate what we did for insertion sort to give your conclusion.
 \begin{solution}
 Psuedocode for bubble sort: \\
 \noindent
@@ -132,7 +133,7 @@ Psuedocode for bubble sort: \\
 \end{solution}
 
 \subsection*{Problem 3}
-
+Compare the following functions, and list them in a non-decreasin order: $n, \lg n, \lg \lg n,, n!, n \lg n, \lg n^2, \lg^2 n, e^n$
 \begin{solution}
   $\lg\lg n < \lg n < \lg n^2 < \lg^2 n< n < 5^{\lg n} < n \lg n < n! < e^n$
 
@@ -142,7 +143,8 @@ Psuedocode for bubble sort: \\
 \end{solution}
 
 \subsection*{Problem 4}
-
+(a) Is $5n^2+2n =O(n^2)$? If so, please give its $c$ and $n_0$ according to the definition.
+(b) Is $\log_3^2 n =o(\sqrt[3]n)$? If so, please prove it.
 \begin{solution}
   (a) Yes, $5n^2 + 2n = \mathcal{O}(n^2)$. From the definition of Big $\mathcal{O}$, we need to find postive constants $c, n_0$ to satisfy $5n^2 + 2n \le cn^2, \forall n \ge n_0$.
   \begin{align*}
@@ -165,7 +167,7 @@ Psuedocode for bubble sort: \\
 \end{solution}
 
 \subsection*{Problem 5}
-
+Use recursion tree to find the tight bound for the following recurrence: $T(n)=4T(n/6)+T(n/3)+n/2$
 \begin{solution}
 Recursion tree of $T(n) = 4T(n/6) + T(n/3) + n/2$
 \[
@@ -238,7 +240,10 @@ Recursion tree of $T(n) = 4T(n/6) + T(n/3) + n/2$
 \end{solution}
 
 \subsection*{Problem 6}
-
+Use the master method to solve the following recurrence: \\
+(a) $T(n)=4T(n/2)+n$ \\
+(b) $T(n)=4T(n/2)+n^2$ \\
+(c) $T(n)=4T(n/2)+n^3$
 \begin{solution}
   (a) Based on master method, we have $a = 4, b = 2, f(n) = n$, which implies that $n^{\log_{b}a} = n^{\log_{2}4} = n^2 = \Theta(n^2)$. Since $f(n) = n = \mathcal{O}(n^{2-\epsilon})$, for any constant $0 < \epsilon \le 1$, we can solve this recurrence by applying case 1 of master method. The solution is $T(n) = \Theta(n^{\log_{b}a}) = \Theta(n^{\log_{2}4}) = \Theta(n^2)$.
 \end{solution}
@@ -252,7 +257,7 @@ Recursion tree of $T(n) = 4T(n/6) + T(n/3) + n/2$
 \end{solution}
 
 \subsection*{Problem 7}
-
+Can the master method be applied to the recurrence $T(n)=4T(n/2)+n^2 \lg n$? Why or why not?
 \begin{solution}
   We have $a = 4, b = 2, f(n) = n^2\lg n$ from our recurrence, where we have $n^{\log_{b}a} = n^{\log_{2}4} = n^2$. $f(n) = n^2\lg n= \Omega({n^{2 + \epsilon}})$ for some constant $\epsilon$. In addition, we cannot find any constant $c < 1$ that satisfies $af(n/b) = 4(n/2)^2\lg n/2  = n^2\lg n/2 \le cn^2 \lg n$. To verify our statement,
 
@@ -268,6 +273,7 @@ Recursion tree of $T(n) = 4T(n/6) + T(n/3) + n/2$
 \setcounter{equation}{0}
 
 \subsection*{Problem 8}
+Use the idea of changing variables to solve the following recurrence: $T(n)=3T(\sqrt[3]n)+\lg n$
 \begin{solution}
   Let $m = \lg n, n = 2^m, n^{\frac{1}{3}} = 2^{\frac{m}{3}}$.
   \begin{align}
@@ -280,7 +286,7 @@ Recursion tree of $T(n) = 4T(n/6) + T(n/3) + n/2$
 \end{solution}
 
 \subsection*{Problem 9}
-
+(a) Given an array $A[1..10]=< 6,10,4,1,8,7,5,2,9,3>$, what is the resulting heap using the $\proc{BUILD-MAX-HEAP}(A)$ procedure listed in the textbook? You should show your result step by step, using Figure 6.3 in the textbook as a model. (b) Use Figure 6.4 as a model, illustrate the operation of $\proc{HEAPSORT}$ on the heap you built in (a).
 \begin{solution}
   (a) Result of each step of $\proc{BUILD-MAX-HEAP}(A)$: \\
 \centerline{
@@ -351,7 +357,7 @@ Recursion tree of $T(n) = 4T(n/6) + T(n/3) + n/2$
 \end{solution}
 
 \subsection*{Problem 10}
-
+The operation $\proc{HEAP-DELETE}(A, i)$ deletes the item in node $i$ from heap $A$. Give an implementation of $\proc{HEAP-DELETE}$ that runs in $O(\lg n)$ time for an $n$-element max-heap.
 \begin{solution}
 Psuedocode for heap delete: \\
 \noindent
