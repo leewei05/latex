@@ -14,4 +14,4 @@ all:
 fi
 
 clean:
-	rm -f *.aux *.ps *.pdf *.dvi *.bbl *.blg *.tmp *.log *.gz *.fdb_latexmk *.fls *~
+	rm -f *.aux *.ps *.dvi *.bbl *.blg *.tmp *.log *.gz *.fdb_latexmk *.fls *~

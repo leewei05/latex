@@ -1,0 +1,90 @@
+\documentclass{resume} % Use the custom resume.cls style
+
+\usepackage[left=0.4 in,top=0.4in,right=0.4 in,bottom=0.4in]{geometry} % Document margins
+\newcommand{\tab}[1]{\hspace{.2667\textwidth}\rlap{#1}}
+\newcommand{\itab}[1]{\hspace{0em}\rlap{#1c}}
+\name{Li-Yuan Wei} % Your name
+% You can merge both of these into a single line, if you do not have a website.
+\address{Taipei, Taiwan}
+\address{\href{mailto:lee10202013@gmail.com}{lee10202013@gmail.com} $\vert$ \href{https://github.com/leewei05}{github.com/leewei05}}  %
+
+\begin{document}
+
+%----------------------------------------------------------------------------------------
+%	EDUCATION SECTION
+%----------------------------------------------------------------------------------------
+\begin{rSection}{Education}
+
+{\bf B.S in Electrical Engineering}, National Taiwan University of Science and Technology \hfill {Sep 2013 - June 2017}
+ \begin{itemize}
+    \itemsep -3pt {}
+     \item Computer science coursework: Computer Networks, Data Structure, Discrete mathematics, Algorithms, Compiler Design, Real-Time Operating System
+ \end{itemize}
+
+
+\end{rSection}
+
+
+
+%----------------------------------------------------------------------------------------
+% Projects
+%----------------------------------------------------------------------------------------
+
+% Compiler, Editor, Small top, du
+% https://viewsourcecode.org/snaptoken/kilo/
+\begin{rSection}{PROJECTS}
+\vspace{-1.25em}
+\item \textbf{Project 1} {C}
+\hfill \href{www.github.com/GITHUBURL}{GitHub}
+\item \textbf{Project 2} {C}
+\hfill \href{www.github.com/GITHUBURL}{GitHub}
+\item \textbf{Project 3} {C}
+\hfill \href{www.github.com/GITHUBURL}{GitHub}
+\end{rSection}
+
+%----------------------------------------------------------------------------------------
+% TECHINICAL STRENGTHS
+%----------------------------------------------------------------------------------------
+ \begin{rSection}{SKILLS}
+ \begin{tabular}{ @{} >{\bfseries}l @{\hspace{6ex}} l }
+ Programming Languages & C, C++, Python, Latex \\
+ Tools & gdb, valgrind, perf \\
+ \end{tabular}\\
+ \end{rSection}
+
+%----------------------------------------------------------------------------------------
+% EXPERIENCE
+%----------------------------------------------------------------------------------------
+
+\begin{rSection}{EXPERIENCE}
+
+\textbf{DevOps Engineer} \hfill July 2021 - August 2022\\
+OpenNet Limited Inc. \hfill \textit{Taipei, Taiwan}
+ \begin{itemize}
+    \itemsep -3pt {}
+     \item Migrate Legacy Nginx servers from EC2 to EKS
+     \item Migrate EKS cluster to newer versions with no downtime
+     \item Adopt Prometheus Thanos stack to improve monitoring system stability
+ \end{itemize}
+
+\textbf{Site Reliability Engineer} \hfill Oct 2020 - Jun 2021\\
+17 Live Inc. \hfill \textit{Taipei, Taiwan}
+ \begin{itemize}
+    \itemsep -3pt {}
+     \item Implement Prometheus monitoring stack from scratch
+     \item Set up and optimized Staging environment for load testing
+     \item Refactor Jenkins pipeline for better readability
+ \end{itemize}
+
+ \textbf{Senior Google Cloud Customer Engineer} \hfill Mar 2018 - Oct 2020\\
+iKala Interactive Media Inc. \hfill \textit{Taipei, Taiwan}
+ \begin{itemize}
+    \itemsep -3pt {}
+     \item Saved 40\% of time by implementing customer support system
+     \item Optimized in-house data report, reduced 60\% of process time
+     \item Developed billing alert monitoring systems, helped customer save more than 10k USD
+ \end{itemize}
+
+\end{rSection}
+\end{document}
+
