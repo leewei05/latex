@@ -1,0 +1,103 @@
+\documentclass[a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{clrscode4e} % Algorithm template from Introduction to Algorithms 4th
+\usepackage[left=2cm,right=2cm,top=1cm,bottom=2cm]{geometry} % page settings
+\usepackage{amsthm, amsmath} % provides many mathematical environments & tools
+\usepackage{tikz} % draw pictures
+\usepackage{tabularray}
+\usepackage[noend]{algorithmic}
+\usepackage{tabularx}
+\usepackage[noend]{algorithmic}
+\usepackage{algorithm}
+\usepackage{arydshln}
+\usepackage{forest}
+\usepackage{adjustbox}
+
+%-----------------------------------------------------------
+% Custom commands
+%-----------------------------------------------------------
+\usetikzlibrary{positioning,matrix, arrows.meta}
+\tikzset{box/.style={draw, thick, minimum width=1cm, minimum height=1cm}}
+
+\newenvironment{solution}
+  {\begin{proof}[Solution]}
+  {\end{proof}}
+\renewcommand{\qedsymbol}{\rule{0.7em}{0.7em}}
+
+\makeatletter
+\renewenvironment{proof}[1][\proofname]{%
+  \par\pushQED{\qed}\normalfont%
+  \topsep6\p@\@plus6\p@\relax
+  \trivlist\item[\hskip\labelsep\bfseries#1\@addpunct{.}]%
+  \ignorespaces
+}{%
+  \popQED\endtrivlist\@endpefalse
+}
+\makeatother
+
+\tikzset{
+      heap/.style={
+        every node/.style={circle,draw,minimum width=8mm},
+        level 1/.style={sibling distance=80mm},
+        level 2/.style={sibling distance=50mm},
+        level 3/.style={sibling distance=20mm}, % <----- Here's the lowest level of your tree
+        level 4/.style={sibling distance=10mm}
+      }
+    }
+
+\setlength{\parindent}{0mm}
+
+%-----------------------------------------------------------
+% Document
+%-----------------------------------------------------------
+\begin{document}
+
+\title{Algorithms: Homework 2}
+\author{Li-Yuan Wei}
+\date{\today}
+\maketitle
+
+\subsection*{Problem 1}
+\begin{solution}
+\end{solution}
+
+\subsection*{Problem 2}
+\begin{solution}
+\end{solution}
+
+\subsection*{Problem 3}
+\begin{solution}
+\end{solution}
+
+\subsection*{Problem 4}
+\end{solution}
+
+\begin{solution}
+\end{solution}
+
+\subsection*{Problem 5}
+\begin{solution}
+\end{solution}
+
+\subsection*{Problem 6}
+\begin{solution}
+\end{solution}
+
+\subsection*{Problem 7}
+\begin{solution}
+\end{solution}
+
+\subsection*{Problem 8}
+\end{solution}
+
+\subsection*{Problem 9}
+\begin{solution}
+\end{solution}
+
+\subsection*{Problem 10}
+\begin{solution}
+\end{solution}
+\end{document}
+
+
