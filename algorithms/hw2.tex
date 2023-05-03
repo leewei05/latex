@@ -13,10 +13,46 @@
 \usepackage{arydshln}
 \usepackage{forest}
 \usepackage{adjustbox}
+\usepackage{array}
+\usepackage{ifthen}
 
 %-----------------------------------------------------------
 % Custom commands
 %-----------------------------------------------------------
+\newenvironment{hashtable}[1][]
+  {\begin{tabular}[#1]{
+     @{}
+     > {\small} r <{\normalsize~\rlap{\fbox{\strut~~}}$~~\rightarrow$~}
+     @{} l @{}}}
+  {\end{tabular}}
+
+\tikzset{
+node of list/.style = {
+             draw,
+             fill=orange!20,
+             minimum height=6mm,
+             minimum width=6mm,
+             node distance=6mm
+   },
+link/.style = {
+     -stealth,
+     shorten >=1pt
+     },
+array element/.style = {
+    draw, fill=white,
+    minimum width = 6mm,
+    minimum height = 10mm
+  }
+}
+
+\def\LinkedList#1{%
+  \foreach \element in \list {
+     \node[node of list, right = of aux, name=ele] {\element};
+     \draw[link] (aux) -- (ele);
+     \coordinate (aux) at (ele.east);
+  }
+}
+
 \usetikzlibrary{positioning,matrix, arrows.meta}
 \tikzset{box/.style={draw, thick, minimum width=1cm, minimum height=1cm}}
 
@@ -71,8 +107,6 @@
 \end{solution}
 
 \subsection*{Problem 4}
-\end{solution}
-
 \begin{solution}
 \end{solution}
 
@@ -82,6 +116,30 @@
 
 \subsection*{Problem 6}
 \begin{solution}
+Final hash table with chaining: \\
+\begin{tikzpicture}
+%\coordinate (0);
+%\foreach \t[count=\i from 0,evaluate=\i as\j using int(\i+1)] in {
+%  27,
+%  19,
+%  11 $\rightarrow$ 29 $\rightarrow$ 38,
+%  12,
+%  40,
+%  23,
+%  \empty,
+%  43,
+%  \empty
+%}
+%\node at(\i.south)[anchor=north,draw,minimum height=1.5em,minimum width=1.5em,outer sep=0pt](\j){}
+%    node at(\j.west)[align=right,left]{\i}
+%    node at(\j.east)[align=left,right,xshift=-.7em]{
+%    $\rightarrow$ \t
+%  };
+  \foreach \index/\list in {0/{27}, 1/{19}, 2/{11,29,38}, 3/{12}, 4/{40}, 5/{23}, 6/{}, 7/{43}, 8/{}} {
+   \node[array element] (aux) at (0,-\index) {\index};
+   \LinkedList{\list}
+}
+\end{tikzpicture}
 \end{solution}
 
 \subsection*{Problem 7}
@@ -89,6 +147,7 @@
 \end{solution}
 
 \subsection*{Problem 8}
+\begin{solution}
 \end{solution}
 
 \subsection*{Problem 9}
@@ -98,6 +157,7 @@
 \subsection*{Problem 10}
 \begin{solution}
 \end{solution}
+
 \end{document}
 
 
