@@ -73,17 +73,6 @@ array element/.style = {
   \popQED\endtrivlist\@endpefalse
 }
 \makeatother
-
-\tikzset{
-      heap/.style={
-        every node/.style={circle,draw,minimum width=8mm},
-        level 1/.style={sibling distance=80mm},
-        level 2/.style={sibling distance=50mm},
-        level 3/.style={sibling distance=20mm}, % <----- Here's the lowest level of your tree
-        level 4/.style={sibling distance=10mm}
-      }
-    }
-
 \setlength{\parindent}{0mm}
 
 %-----------------------------------------------------------
@@ -98,11 +87,29 @@ array element/.style = {
 
 \subsection*{Problem 1}
 \begin{solution}
+$$
+\begin{array}{cccc}
+0(initial)& digit\ 1 & digit\ 2 & digit\ 3 \\\\
+\hline
+\text{NOD} & \text{EB$\textbf{B}$} & \text{B$\textbf{A}$N} & \text{$\textbf{A}$SH} \\\\
+\text{HOG} & \text{NO$\textbf{D}$} & \text{B$\textbf{A}$R} & \text{$\textbf{B}$AN} \\\\
+\text{SHY} & \text{TE$\textbf{D}$} & \text{P$\textbf{A}$R} & \text{$\textbf{B}$AR} \\\\
+\text{BAN} & \text{HO$\textbf{G}$} & \text{E$\textbf{B}$B} & \text{$\textbf{E}$BB} \\\\
+\text{BAR} & \text{FI$\textbf{G}$} & \text{T$\textbf{E}$D} & \text{$\textbf{F}$IG} \\\\
+\text{JET} & \text{AS$\textbf{H}$} & \text{J$\textbf{E}$T} & \text{$\textbf{H}$OG} \\\\
+\text{EBB} & \text{BA$\textbf{N}$} & \text{P$\textbf{E}$T} & \text{$\textbf{J}$ET} \\\\
+\text{PAR} & \text{BA$\textbf{R}$} & \text{S$\textbf{H}$Y} & \text{$\textbf{N}$OD} \\\\
+\text{ASH} & \text{PA$\textbf{R}$} & \text{F$\textbf{I}$G} & \text{$\textbf{P}$AR} \\\\
+\text{PET} & \text{JE$\textbf{T}$} & \text{N$\textbf{O}$D} & \text{$\textbf{P}$ET} \\\\
+\text{TED} & \text{PE$\textbf{T}$} & \text{H$\textbf{O}$G} & \text{$\textbf{R}$OT} \\\\
+\text{ROT} & \text{RO$\textbf{T}$} & \text{R$\textbf{O}$T} & \text{$\textbf{S}$HY} \\\\
+\text{FIG} & \text{SH$\textbf{Y}$} & \text{A$\textbf{S}$H} & \text{$\textbf{T}$ED} \\\\
+\end{array}
+$$
 \end{solution}
 
 \subsection*{Problem 2}
 \begin{solution}
-  ??
 \end{solution}
 
 \subsection*{Problem 3}
@@ -126,16 +133,61 @@ array element/.style = {
 }
 \end{tikzpicture}
 \caption{Sort each bucket}
+\label{bucket}
 \end{minipage}
 \end{figure}
 
+\begin{solution}
+To get sorted data, chain all in Figure \ref{bucket} from bucket $0$ to bucket $10$: \\
+$<.30, .37, .41, .49, .50, .56, .68, .69, .72, .74>$
+\end{solution}
+
 \subsection*{Problem 4}
 \begin{solution}
+Psuedocode for finding the $k$-th smallest element:\\
+\noindent
+\begin{tabularx}{\textwidth}{>{\footnotesize}rX@{}}
+  \\[-1.5ex] \hline
+  \multicolumn{2}{@{}l}{\refstepcounter{algorithm}\label{find-k} $\proc{FIND-K-TH-SMALLEST}(X, k)$} \\
+  \hline
+   1: & \If $i > \attrib{A}{heap-size}$\\
+   2: & \quad \Error $A[i]$ does not exist \\
+   3: & key = $A[i]$ \\
+   4: & $A[i] = A[\attrib{A}{heap-size}]$ \\
+   5: & $\attrib{A}{heap-size} = \attrib{A}{heap-size} - 1$ \\
+   6: & \If $A[i] <$ key \\
+   7: & \quad $\proc{MAX-HEAPIFY}(A, i)$ \\
+   8: & \textbf{else} \\
+   9: & \quad key1 $= A[i]$ \\
+  10: & \quad $A[i] =$ key \\
+  11: & \quad $\proc{HEAP-INCREASE-KEY}(A, i, key1)$ \\
+\hline
+\\ [-0.2cm]
+\end{tabularx}
 \end{solution}
 
 \subsection*{Problem 5}
 \begin{solution}
-
+Psuedocode for finding the median of arrays X and Y:\\
+\noindent
+\begin{tabularx}{\textwidth}{>{\footnotesize}rX@{}}
+  \\[-1.5ex] \hline
+  \multicolumn{2}{@{}l}{\refstepcounter{algorithm}\label{find-median} $\proc{FIND-MEDIAN}(X,Y,s,n)$} \\
+  \hline
+   1: & \If $i > \attrib{A}{heap-size}$\\
+   2: & \quad \Error $A[i]$ does not exist \\
+   3: & key = $A[i]$ \\
+   4: & $A[i] = A[\attrib{A}{heap-size}]$ \\
+   5: & $\attrib{A}{heap-size} = \attrib{A}{heap-size} - 1$ \\
+   6: & \If $A[i] <$ key \\
+   7: & \quad $\proc{MAX-HEAPIFY}(A, i)$ \\
+   8: & \textbf{else} \\
+   9: & \quad key1 $= A[i]$ \\
+  10: & \quad $A[i] =$ key \\
+  11: & \quad $\proc{HEAP-INCREASE-KEY}(A, i, key1)$ \\
+\hline
+\\ [-0.2cm]
+\end{tabularx}
 \end{solution}
 
 \subsection*{Problem 6}
@@ -152,6 +204,9 @@ array element/.style = {
 
 \subsection*{Problem 7}
 \begin{figure}[H]
+\centering
+% 7.1 linear probing
+\begin{minipage}{5cm}
 \centering
 \begin{tikzpicture}
 \coordinate (0);
@@ -173,9 +228,10 @@ array element/.style = {
     node at(\j.east)[align=left,right,xshift=-.7em]{};
 \end{tikzpicture}
 \caption{linear probing}
-\end{figure}
-
-\begin{figure}[H]
+\end{minipage}
+\qquad
+% 7.2 quadratic hashing
+\begin{minipage}{5cm}
 \centering
 \begin{tikzpicture}
 \coordinate (0);
@@ -197,9 +253,10 @@ array element/.style = {
     node at(\j.east)[align=left,right,xshift=-.7em]{};
 \end{tikzpicture}
 \caption{quadratic probing}
-\end{figure}
-
-\begin{figure}[H]
+\end{minipage}
+\qquad
+% 7.3 double hashing
+\begin{minipage}{5cm}
 \centering
 \begin{tikzpicture}
 \coordinate (0);
@@ -221,6 +278,7 @@ array element/.style = {
     node at(\j.east)[align=left,right,xshift=-.7em]{};
 \end{tikzpicture}
 \caption{double hashing}
+\end{minipage}
 \end{figure}
 
 \subsection*{Problem 8}
@@ -231,33 +289,9 @@ array element/.style = {
 \begin{solution}
 \end{solution}
 
-\begin{figure}[H]
-\centering
-\parbox{5cm}{
-\caption{First.}
-\label{fig:2figsA}}
-\qquad
-\begin{minipage}{5cm}
-\caption{Second.}
-\label{fig:2figsB}
-\end{minipage}
-\begin{minipage}{5cm}
-\caption{Third.}
-\label{fig:3figsC}
-\end{minipage}
-\end{figure}
-
 \subsection*{Problem 10}
 \begin{solution}
 \end{solution}
-
-\begin{tblr}{|l|c|r|}
-\hline
- Left & {Center \\ Cent \\ C} & {Right \\ R} \\
-\hline
-{L \\ Left} & {C \\ Cent \\ Center} & R \\
-\hline
-\end{tblr}
 
 \end{document}
 
