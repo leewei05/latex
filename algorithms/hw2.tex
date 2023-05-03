@@ -15,7 +15,9 @@
 \usepackage{adjustbox}
 \usepackage{array}
 \usepackage{ifthen}
-
+\usepackage{caption}
+\usepackage{subfig}
+\usepackage{graphicx,wrapfig,lipsum}
 %-----------------------------------------------------------
 % Custom commands
 %-----------------------------------------------------------
@@ -100,11 +102,32 @@ array element/.style = {
 
 \subsection*{Problem 2}
 \begin{solution}
+  ??
 \end{solution}
 
 \subsection*{Problem 3}
-\begin{solution}
-\end{solution}
+\begin{figure}[H]
+\centering
+\begin{minipage}{5cm}
+\begin{tikzpicture}
+  \foreach \index/\list in {0/{}, 1/{}, 2/{}, 3/{.37,.30}, 4/{.41, .49}, 5/{.50, .56}, 6/{.69, .68}, 7/{.72, .74}, 8/{}, 9/{}, 10/{}} {
+   \node[array element] (aux) at (0,-\index) {\index};
+   \LinkedList{\list}
+}
+\end{tikzpicture}
+\caption{Insert data}
+\end{minipage}
+\qquad
+\begin{minipage}{5cm}
+\begin{tikzpicture}
+  \foreach \index/\list in {0/{}, 1/{}, 2/{}, 3/{.30,.37}, 4/{.41, .49}, 5/{.50, .56}, 6/{.68, .69}, 7/{.72, .74}, 8/{}, 9/{}, 10/{}} {
+   \node[array element] (aux) at (0,-\index) {\index};
+   \LinkedList{\list}
+}
+\end{tikzpicture}
+\caption{Sort each bucket}
+\end{minipage}
+\end{figure}
 
 \subsection*{Problem 4}
 \begin{solution}
@@ -112,39 +135,93 @@ array element/.style = {
 
 \subsection*{Problem 5}
 \begin{solution}
+
 \end{solution}
 
 \subsection*{Problem 6}
-\begin{solution}
-Final hash table with chaining: \\
+\begin{figure}[H]
+\centering
 \begin{tikzpicture}
-%\coordinate (0);
-%\foreach \t[count=\i from 0,evaluate=\i as\j using int(\i+1)] in {
-%  27,
-%  19,
-%  11 $\rightarrow$ 29 $\rightarrow$ 38,
-%  12,
-%  40,
-%  23,
-%  \empty,
-%  43,
-%  \empty
-%}
-%\node at(\i.south)[anchor=north,draw,minimum height=1.5em,minimum width=1.5em,outer sep=0pt](\j){}
-%    node at(\j.west)[align=right,left]{\i}
-%    node at(\j.east)[align=left,right,xshift=-.7em]{
-%    $\rightarrow$ \t
-%  };
   \foreach \index/\list in {0/{27}, 1/{19}, 2/{11,29,38}, 3/{12}, 4/{40}, 5/{23}, 6/{}, 7/{43}, 8/{}} {
    \node[array element] (aux) at (0,-\index) {\index};
    \LinkedList{\list}
 }
 \end{tikzpicture}
-\end{solution}
+\caption{Hash table with chaining}
+\end{figure}
 
 \subsection*{Problem 7}
-\begin{solution}
-\end{solution}
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\coordinate (0);
+\foreach \t[count=\i from 0,evaluate=\i as\j using int(\i+1)] in {
+  87,
+  23,
+  12,
+  58,
+  4,
+  0,
+  28,
+  17,
+  0,
+  31,
+  10
+}
+\node at(\i.south)[anchor=north,draw,minimum height=2em,minimum width=2em,outer sep=0pt](\j){\t}
+    node at(\j.west)[align=right,left]{\i}
+    node at(\j.east)[align=left,right,xshift=-.7em]{};
+\end{tikzpicture}
+\caption{linear probing}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\coordinate (0);
+\foreach \t[count=\i from 0,evaluate=\i as\j using int(\i+1)] in {
+  58,
+  23,
+  87,
+  17,
+  4,
+  12,
+  28,
+  7,
+  8,
+  31,
+  10
+}
+\node at(\i.south)[anchor=north,draw,minimum height=2em,minimum width=2em,outer sep=0pt](\j){\t}
+    node at(\j.west)[align=right,left]{\i}
+    node at(\j.east)[align=left,right,xshift=-.7em]{};
+\end{tikzpicture}
+\caption{quadratic probing}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\coordinate (0);
+\foreach \t[count=\i from 0,evaluate=\i as\j using int(\i+1)] in {
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0
+}
+\node at(\i.south)[anchor=north,draw,minimum height=2em,minimum width=2em,outer sep=0pt](\j){\t}
+    node at(\j.west)[align=right,left]{\i}
+    node at(\j.east)[align=left,right,xshift=-.7em]{};
+\end{tikzpicture}
+\caption{double hashing}
+\end{figure}
 
 \subsection*{Problem 8}
 \begin{solution}
@@ -154,9 +231,33 @@ Final hash table with chaining: \\
 \begin{solution}
 \end{solution}
 
+\begin{figure}[H]
+\centering
+\parbox{5cm}{
+\caption{First.}
+\label{fig:2figsA}}
+\qquad
+\begin{minipage}{5cm}
+\caption{Second.}
+\label{fig:2figsB}
+\end{minipage}
+\begin{minipage}{5cm}
+\caption{Third.}
+\label{fig:3figsC}
+\end{minipage}
+\end{figure}
+
 \subsection*{Problem 10}
 \begin{solution}
 \end{solution}
+
+\begin{tblr}{|l|c|r|}
+\hline
+ Left & {Center \\ Cent \\ C} & {Right \\ R} \\
+\hline
+{L \\ Left} & {C \\ Cent \\ Center} & R \\
+\hline
+\end{tblr}
 
 \end{document}
 
