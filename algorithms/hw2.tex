@@ -114,6 +114,27 @@ $$
 \subsection*{Problem 2}
 Show how to sort $n$ integers in the range $0$ to $n^2-1$ in $\mathcal{O}(n)$ time.
 \begin{solution}
+  Psuedocode for sorting $n$ integers in $\mathcal{O}(n)$, $X$ is an array storing all $n$ integers:\\
+\noindent
+\begin{tabularx}{\textwidth}{>{\footnotesize}rX@{}}
+  \\[-1.5ex] \hline
+  \multicolumn{2}{@{}l}{\refstepcounter{algorithm}\label{sort-n} $\proc{SORT-N-LINEAR}(X, n)$} \\
+  \hline
+   1: & \If $n == 1$ \\
+   2: & \quad \Return \\
+   3: & \For $i \gets 1$ \To $n$ \\
+   4: & \quad \Comment change $X[i]$ into base $n$\\
+   5: & \quad $\proc{CHANGE-BASE-N}(X[i])$ \\
+   6: & \Comment each integer will have at most $\log_n n^2 = 2$ digits\\
+   7: & \Comment radix sort uses counting sort to sort $n$ at most $2$ digits integers\\
+   8: & $\proc{RADIX-SORT}(X)$ \\
+   9: & \For $i \gets 1$ \To $n$ \\
+   10: & \quad \Comment convert $X[i]$ back to its original value because we sorted them with base $n$\\
+   11: & \quad $\proc{CONVERT-BASE-N}(X[i])$ \\
+\hline
+\\ [-0.2cm]
+\end{tabularx}
+
 \end{solution}
 
 \subsection*{Problem 3}
@@ -143,30 +164,27 @@ Using Figure 8.4 as a model, illustrate the operation of BUCKET-SORT on the arra
 \end{figure}
 
 \begin{solution}
-To get sorted data, chain all in Figure \ref{bucket} from bucket $0$ to bucket $10$: \\
+To get sorted data, chain all the nodes in Figure \ref{bucket} from bucket $0$ to bucket $10$: \\
 $<.30, .37, .41, .49, .50, .56, .68, .69, .72, .74>$
 \end{solution}
 
 \subsection*{Problem 4}
 Suppose that you have a “black-box” worst-case linear time median subroutine. Give a simple, linear-time algorithm that solves the selection problem for an arbitrary order statistic.
 \begin{solution}
-Psuedocode for finding the $k$-th smallest element:\\
+  Psuedocode for finding the $k$-th smallest element in array $X[1..n]$:\\
 \noindent
 \begin{tabularx}{\textwidth}{>{\footnotesize}rX@{}}
   \\[-1.5ex] \hline
-  \multicolumn{2}{@{}l}{\refstepcounter{algorithm}\label{find-k} $\proc{FIND-K-TH-SMALLEST}(X, k)$} \\
+  \multicolumn{2}{@{}l}{\refstepcounter{algorithm}\label{find-k} $\proc{FIND-K-TH-SMALLEST}(X, n, k)$} \\
   \hline
-   1: & \If $i > \attrib{A}{heap-size}$\\
-   2: & \quad \Error $A[i]$ does not exist \\
-   3: & key = $A[i]$ \\
-   4: & $A[i] = A[\attrib{A}{heap-size}]$ \\
-   5: & $\attrib{A}{heap-size} = \attrib{A}{heap-size} - 1$ \\
-   6: & \If $A[i] <$ key \\
-   7: & \quad $\proc{MAX-HEAPIFY}(A, i)$ \\
-   8: & \textbf{else} \\
-   9: & \quad key1 $= A[i]$ \\
-  10: & \quad $A[i] =$ key \\
-  11: & \quad $\proc{HEAP-INCREASE-KEY}(A, i, key1)$ \\
+  1: & \Comment suppose $\proc{BLACK-BOX}$ returns the index of the median\\
+  2: & k = $\proc{BLACK-BOX}(X)$ \\
+  3: & \If k == n / 2 \\
+  4: & \quad \Return $X[k]$ \\
+  5: & \If k < n / 2 \\
+  6: & \quad search upper array\\
+  7: & \textbf{else} k > n / 2 \\
+  8: & \quad search lower array\\
 \hline
 \\ [-0.2cm]
 \end{tabularx}
@@ -263,10 +281,10 @@ Consider inserting the keys 10, 23, 31, 4, 12, 28, 17, 87, 58 into a hash table 
   12,
   58,
   4,
-  0,
+  x,
   28,
   17,
-  0,
+  x,
   31,
   10
 }
@@ -288,27 +306,24 @@ Consider inserting the keys 10, 23, 31, 4, 12, 28, 17, 87, 58 into a hash table 
   &\text{(3) insert}\ 31 \to 31 \Mod{11} = 9\\
   &\text{(4) insert}\ 4 \to 4 \Mod{11} = 4\\
   &\text{(5) insert}\ 12 \to  12 \Mod{11} = 1\ \times\ \text{collision} \\
-  &(1 + 12 + 3 * 144) \Mod{11} = (1 + 1 + 3) \Mod{11} = 5\\
+  &(1 + 1 + 3 * 1 * 1) \Mod{11} = (1 + 1 + 3) \Mod{11} = 5\\
   &\text{insert $12$ to slot $5$}\\
+  &---------------------\\
   &\text{(6) insert}\ 28\to 28\Mod{11} = 6\\
   &\text{(7) insert}\ 17\to 17\Mod{11} = 6\ \times \\
-  &(6 + 17 + 3 * 289) \Mod{11} = (6 + 6 + 9) \Mod{11} = 10\ \times \\
-  &(10 + 17 + 3 * 289) \Mod{11} = (10 + 6 + 9) \Mod{11} = 3\\
+  &(6 + 1 + 3 * 1 * 1) \Mod{11} = (6 + 1 + 3) \Mod{11} = 10\ \times \\
+  &(6 + 2 + 3 * 2 * 2) \Mod{11} = (6 + 2 + 12) \Mod{11} = 9\ \times \\
+  &(6 + 3 + 3 * 3 * 3) \Mod{11} = (6 + 3 + 27) \Mod{11} = 3 \\
   &\text{insert $17$ to slot $3$}\\
+  &---------------------\\
   &\text{(8) insert}\ 87\to 87\Mod{11} = 10\ \times\\
-  &(10 + 87 + 3 * 87 * 87) \Mod{11} = (10 + 10 + 3) \Mod{11} = 1\ \times \\
-  &(1 + 87 + 3 * 87 * 87) \Mod{11} = (1 + 10 + 3) \Mod{11} = 3\ \times \\
-  &(3 + 87 + 3 * 87 * 87) \Mod{11} = (3 + 10 + 3) \Mod{11} = 5\ \times \\
-  &(5 + 87 + 3 * 87 * 87) \Mod{11} = (5 + 10 + 3) \Mod{11} = 7 \\
-  &\text{insert $87$ to slot $7$}\\
+  &(10 + 1 + 3 * 1 * 1) \mod{11} = (-1 + 1 + 3) \mod{11} = 3\ \times \\
+  &(10 + 2 + 3 * 2 * 2) \mod{11} = (-1 + 2 + 12) \mod{11} = 2 \\
+  &\text{insert $87$ to slot $2$}\\
+  &---------------------\\
   &\text{(9) insert}\ 58\to 58\Mod{11} = 3\ \times\\
-  &(7 + 58 + 3 * 58 * 58) \Mod{11} = (7 + 3 + 5) \Mod{11} = 4\ \times \\
-  &(4 + 58 + 3 * 58 * 58) \Mod{11} = (4 + 3 + 5) \Mod{11} = 1\ \times \\
-  &(1 + 58 + 3 * 58 * 58) \Mod{11} = (1 + 3 + 5) \Mod{11} = 9\ \times \\
-  &(9 + 58 + 3 * 58 * 58) \Mod{11} = (9 + 3 + 5) \Mod{11} = 6\ \times \\
-  &(6 + 58 + 3 * 58 * 58) \Mod{11} = (6 + 3 + 5) \Mod{11} = 3\ \times \\
-  &(3 + 58 + 3 * 58 * 58) \Mod{11} = (3 + 3 + 5) \Mod{11} = 0 \\
-  &\text{insert $58$ to slot $0$}\\
+  &(3 + 1 + 3 * 1 * 1) \mod{11} = (3 + 1 + 3) \mod{11} = 7\\
+  &\text{insert $58$ to slot $7$}\\
 \end{align*}
 \end{minipage}
 \qquad
@@ -319,15 +334,15 @@ Consider inserting the keys 10, 23, 31, 4, 12, 28, 17, 87, 58 into a hash table 
 \begin{tikzpicture}
 \coordinate (0);
 \foreach \t[count=\i from 0,evaluate=\i as\j using int(\i+1)] in {
-  58,
+  x,
   23,
-  0,
+  87,
   17,
   4,
   12,
   28,
-  87,
-  0,
+  58,
+  x,
   31,
   10
 }
@@ -341,20 +356,80 @@ Consider inserting the keys 10, 23, 31, 4, 12, 28, 17, 87, 58 into a hash table 
 
 
 % 7.3 double hashing
+\begin{minipage}{8cm}
+\begin{align*}
+  &\text{resolve collision:}\ h_2(k) = 1 + k \Mod{10} \\
+  & new_k = (h_1(k) + i * h_2(k)) \Mod{11}\\
+  &\text{(1) insert}\ 10 \to 10 \Mod{11} = 10\\
+  &\text{(2) insert}\ 23 \to 23 \Mod{11} = 1\\
+  &\text{(3) insert}\ 31 \to 31 \Mod{11} = 9\\
+  &\text{(4) insert}\ 4 \to 4 \Mod{11} = 4\\
+  &\text{(5) insert}\ 12 \to  12 \Mod{11} = 1\ \times\text{collision} \\
+  & h_2(12) = 1 + 12 \Mod{10} = 3\\
+  & 1 + 1 * 3 \Mod{11} = 4\ \times \\
+  & 1 + 2 * 3 \Mod{11} = 7\ \\
+  &\text{insert $12$ to slot $7$}\\
+  &---------------------\\
+  &\text{(6) insert}\ 28\to 28\Mod{11} = 6\\
+  &\text{(7) insert}\ 17\to 17\Mod{11} = 6\ \times \\
+  & h_2(17) = 1 + 17 \Mod{10} = 8\\
+  & 8 + 1 * 8 \Mod{11} = 5\\
+  &\text{insert $17$ to slot $5$}\\
+  &---------------------\\
+  &\text{(8) insert}\ 87\to 87\Mod{11} = 10\ \times \\
+  & h_2(87) = 1 + 87 \Mod{10} = 8\\
+  & 8 + 1 * 8 \Mod{11} = 5\ \times \\
+  & 8 + 2 * 8 \Mod{11} = 2\\
+  &\text{insert $87$ to slot $2$}\\
+  &---------------------\\
+  &\text{(9) insert}\ 58\to 58\Mod{11} = 3\\
+\end{align*}
+\end{minipage}
+\qquad
+\begin{minipage}{5cm}
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\coordinate (0);
+\foreach \t[count=\i from 0,evaluate=\i as\j using int(\i+1)] in {
+  x,
+  23,
+  87,
+  58,
+  4,
+  17,
+  28,
+  12,
+  x,
+  31,
+  10
+}
+\node at(\i.south)[anchor=north,draw,minimum height=2em,minimum width=2em,outer sep=0pt](\j){\t}
+    node at(\j.west)[align=right,left]{\i}
+    node at(\j.east)[align=left,right,xshift=-.7em]{};
+\end{tikzpicture}
+\caption{double hashing}
+\end{figure}
+\end{minipage}
+
 
 \subsection*{Problem 8}
 Solve the following assembly-line problem: \\ $e_1=1, e_2=1, x_1=7,x_2=3$ \\ $a_{1,1}=3, a_{1,2}=2,a_{1,3}=5, a_{1,4}=4, a_{1,5}=2$ \\ $a_{2,1}=4, a_{2,2}=2, a_{2,3}=4, a_{2,4}=6, a_{2,5}=4$ \\ $t_{1,1}=1 t_{1,2}=2, t_{1,3}=3, t_{1,4}=1$ \\ $t_{2,1}=2, t_{2,2}=3, t_{2,3}=1, t_{2,4}=2$.
 \begin{solution}
+Draw f table
+l table, l start
 \end{solution}
 
 \subsection*{Problem 9}
 Find an optimal parenthesization of a matrix-chain product whose sequence of dimension is <5, 7, 3, 2, 4, 5>
 \begin{solution}
+Draw M table, S table, and the positions of parenthesis
 \end{solution}
 
 \subsection*{Problem 10}
 Determine an LCS of <1, 1, 0, 1, 0, 1> and <0, 0, 1, 1, 0, 1, 1>.
 \begin{solution}
+Draw C table
 \end{solution}
 
 \end{document}
