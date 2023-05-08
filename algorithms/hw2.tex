@@ -3,7 +3,7 @@
 \usepackage[english]{babel}
 \usepackage{clrscode4e} % Algorithm template from Introduction to Algorithms 4th
 \usepackage[left=2cm,right=2cm,top=1cm,bottom=2cm]{geometry} % page settings
-\usepackage{amsthm, amsmath} % provides many mathematical environments & tools
+\usepackage{amsthm, amsmath, amssymb} % provides many mathematical environments & tools
 \usepackage{tikz} % draw pictures
 \usepackage{tabularray}
 \usepackage[noend]{algorithmic}
@@ -460,11 +460,47 @@ l_2[j] & 2 & 2 & 2 & 1
   $f^* = 23, l^* = 2$. The best solution for this assembly line is to start from $a_{1,1}$, and goes through $a_{1,2}, a_{1,3}, a_{1,4}, t_{1,4}, a_{2,5}, x_2$.
 \end{solution}
 
-\newpage
 \subsection*{Problem 9}
 Find an optimal parenthesization of a matrix-chain product whose sequence of dimension is <5, 7, 3, 2, 4, 5>. \\
-$A_1 = A_{5 \times 7}, A_2 = A_{7 \times 3}, A_3 = A_{3 \times 2}, A_4 = A_{2 \times 4}, A_5 = A_{4 \times 5}$ \\
-$p_0 = e, p_1 = 7, p_2 = 3, p_3 = 2, p_4 = 4, p_5 = 5$\\
+$A_1 = A_{5 \times 7}, A_2 = A_{7 \times 3}, A_3 = A_{3 \times 2}, A_4 = A_{2 \times 4}, A_5 = A_{4 \times 5}, p_0 = 5\label{p0}, p_1 = 7, p_2 = 3, p_3 = 2, p_4 = 4, p_5 = 5$\\
+\begin{align*}
+  m[1,2] &= 5 \cdot 7 \cdot 3 = 105\ (k = 1) \\
+  m[2,3] &= 7 \cdot 3 \cdot 2 = 42\ (k = 2) \\
+  m[3,4] &= 3 \cdot 2 \cdot 4 = 24\ (k = 3) \\
+  m[4,5] &= 2 \cdot 4 \cdot 5 = 40\ (k = 4) \\
+\end{align*}
+
+\begin{align*}
+  m[1,3] & =\left\{\begin{array}{cl}
+      m[1,1] + m[2,3] + p_0\cdot p_1 \cdot p_3 &= 0 + 42 + 5 \cdot 7 \cdot 2 = 112\ (k = 1)\ \checkmark\\
+      m[1,2] + m[3,3] + p_0\cdot p_2 \cdot p_3 &= 105 + 0 + 5 \cdot 3 \cdot 2 = 135 \\
+  \end{array}\right. \\
+  m[2,4] & =\left\{\begin{array}{cl}
+      m[2,2] + m[3,4] + p_1\cdot p_2 \cdot p_4 &= 0 + 24 + 7 \cdot 3 \cdot 4 = 108\ \\
+      m[2,3] + m[4,4] + p_1\cdot p_3 \cdot p_4 &= 42 + 0 + 7 \cdot 2 \cdot 4 = 98\ (k = 3)\ \checkmark\\
+  \end{array}\right. \\
+  m[3,5] & =\left\{\begin{array}{cl}
+      m[3,3] + m[4,5] + p_2\cdot p_3 \cdot p_5 &= 0 + 40 + 3 \cdot 2 \cdot 5 = 70\ (k = 3)\ \checkmark\\
+      m[3,4] + m[5,5] + p_2\cdot p_4 \cdot p_5 &= 24 + 0 + 3 \cdot 4 \cdot 5 = 84\\
+  \end{array}\right. \\
+  m[1,4] & =\left\{\begin{array}{cl}
+      m[1,1] + m[2,4] + p_0\cdot p_1 \cdot p_4 &= 0 + 98 + 5 \cdot 7 \cdot 4 = 238 \\
+      m[1,2] + m[3,4] + p_0\cdot p_2 \cdot p_4 &= 105 + 24 + 5 \cdot 3 \cdot 4 = 189\\
+      m[1,3] + m[4,4] + p_0\cdot p_3 \cdot p_4 &= 112 + 0 + 5 \cdot 2 \cdot 4 = 152\ (k= 3)\checkmark\\
+  \end{array}\right. \\
+  m[2,5] & =\left\{\begin{array}{cl}
+      m[2,2] + m[3,5] + p_1\cdot p_2 \cdot p_5 &= 0 + 70 + 7 \cdot 3 \cdot 5 = 175 \\
+      m[2,3] + m[4,5] + p_1\cdot p_3 \cdot p_5 &= 42 + 40 + 7 \cdot 2 \cdot 5 = 152\ (k = 3)\checkmark\\
+      m[2,4] + m[5,5] + p_1\cdot p_4 \cdot p_5 &= 98 + 0 + 7 \cdot 4 \cdot 5 = 238\\
+  \end{array}\right. \\
+  m[1,5] & =\left\{\begin{array}{cl}
+      m[1,1] + m[2,5] + p_0\cdot p_1 \cdot p_5 &= 0 + 152 + 5\cdot 7 \cdot 5 = 327\\
+      m[1,2] + m[3,5] + p_0\cdot p_2 \cdot p_5 &= 105 + 70 +5\cdot 3 \cdot 5 = 250\\
+      m[1,3] + m[4,5] + p_0\cdot p_3 \cdot p_5 &= 112 + 40 +5\cdot 2 \cdot 5 = 202\ (k =3)\checkmark\\
+      m[1,4] + m[5,5] + p_0\cdot p_4 \cdot p_5 &= 152 + 0 + 5\cdot 4 \cdot 5 = 252\\
+  \end{array}\right. \\
+\end{align*}
+
 \begin{figure}[H]
 \centering
 \begin{minipage}{5cm}
@@ -486,7 +522,7 @@ $p_0 = e, p_1 = 7, p_2 = 3, p_3 = 2, p_4 = 4, p_5 = 5$\\
 \NiceMatrixOptions{cell-space-top-limit=1pt}
 \begin{NiceTabular}{*{4}{c}}[first-row, first-col,corners=SE,hvlines, name=stable]
 \diagbox{j}{i}&1&2&3&4\\
-5&3&4&3&4\\
+5&3&3&3&4\\
 4&3&3&3\\
 3&1&2\\
 2&1\\
