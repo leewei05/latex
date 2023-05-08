@@ -175,35 +175,34 @@ $<.30, .37, .41, .49, .50, .56, .68, .69, .72, .74>$
 \subsection*{Problem 4}
 Suppose that you have a “black-box” worst-case linear time median subroutine. Give a simple, linear-time algorithm that solves the selection problem for an arbitrary order statistic.
 \begin{solution}
-  Psuedocode for finding the $k$-th smallest element in array $X[1..n]$:\\
+  Psuedocode for finding the $k$-th smallest element in array $X[1..n]$, and assume $n > 0$:\\
 \noindent
 \begin{tabularx}{\textwidth}{>{\footnotesize}rX@{}}
   \\[-1.5ex] \hline
   \multicolumn{2}{@{}l}{\refstepcounter{algorithm}\label{find-k} $\proc{FIND-K-TH-SMALLEST}(X, n, k)$} \\
   \hline
-  1: & \Comment returns the index of the median for array $X$ in linear time\\
-  2: & b = $\proc{BLACK-BOX}(X)$ \\
-  3: & \If k == n / 2 \Comment $k$-th smallest is median\\
-  4: & \quad \Return $X[b]$ \\
-  5: & \Comment splits array $X$ into two arrays, $Y$ contains elements less than $b$ and $Z$ contains elements greater than $b$\\
-  6: & $Y, Z = \proc{SPLIT}(X, b)$\\
-  7: & \If $k < n / 2$ \\
-  8: & \quad \Return $\proc{FIND-K-TH-SMALLEST}(Y, n/2, k)$\\
-  9: & \textbf{else} \\
-  10: & \quad \Comment Find $n/2 - k$-th smallest for $Z$ since it's half the size of $X$\\
-  11: & \quad \Return $\proc{FIND-K-TH-SMALLEST}(Z, n/2, n/2 - k)$\\
+  1: & $half = 0$ \\
+  2: & \If n \% 2 == 1 \Comment n is odd\\
+  3: & \quad $half = \lceil n / 2 \rceil$ \\
+  4: & \textbf{else} \Comment n is even\\
+  5: & \quad $half = n / 2$ \\
+  6: & m = $\proc{BLACK-BOX}(X)$ \\
+  7: & \If $k == half$ \Comment $k$-th smallest is median\\
+  8: & \quad \Return $m$ \\
+  9: & \Comment splits $X$ into two arrays, $Y$ contains elements less than $m$ and $Z$ contains elements greater than $m$\\
+  10: & $Y, Z = \proc{SPLIT}(X, m)$\\
+  11: & \If $k < half $ \\
+  12: & \quad \Return $\proc{FIND-K-TH-SMALLEST}(Y, half, k)$\\
+  13: & \textbf{else} \Comment $k > half$ \\
+  14: & \quad \Comment Find $k - half$-th smallest for $Z$ since it's half the size of $X$\\
+  15: & \quad \Return $\proc{FIND-K-TH-SMALLEST}(Z, half, k - half)$\\
 \hline
 \\ [-0.2cm]
 \end{tabularx}
 
-$T(n) = T(n/2) + \mathcal{O}(n)$ \\
-Apply master method $n^{\log_{b}a} = n^{\log_{2}1} = n^0 = 1 < \mathcal{O}(n)$, may apply case 3. \\
-First, we find $\epsilon = 1$ where $f(n) = \Omega(n^{(\log_{2}1) + \epsilon})$. \\
-Second, we find $c = 1/2$ where $af(n/b) = n/2 \le 1/2n = cf(n)$ is true. \\
-Thus, we can conclude that the running time of this algorithm is $\Theta(f(n)) = \Theta(n)$.
+$T(n) = T(n/2) + \mathcal{O}(n)$($\proc{SPLIT}$). Apply master method $n^{\log_{b}a} = n^{\log_{2}1} = n^0 = 1 < \mathcal{O}(n)$, may apply case 3. First, we find $\epsilon = 1$ where $f(n) = \Omega(n^{(\log_{2}1) + \epsilon})$. Second, we find $c = 1/2$ where $af(n/b) = n/2 \le 1/2n = cf(n)$ is true. Thus, we can conclude that the running time of this algorithm is $\Theta(f(n)) = \Theta(n)$.
 \end{solution}
 
-\newpage
 \subsection*{Problem 5}
 Let $X[1 .. n]$ and $Y[1 .. n]$ be two arrays, each containing $n$ numbers already in sorted order. Give an $\mathcal{O}(\lg n)$-time algorithm to find the median of all $2n$ elements in arrays $X$ and $Y$.
 \begin{solution}
@@ -233,9 +232,7 @@ $T(n) = \Theta({n^{\log_2{1}}\lg n}) = \Theta({\lg n})$.
 \end{solution}
 
 \subsection*{Problem 6}
-Demonstrate the insertion of the keys 23, 38, 19, 40, 29, 43, 12, 27, 11 into a hash tale with collisions resolved by chaining. Let the table have 9 slots, and let the hash function be $h(k)=k \Mod{9}$.
-\begin{solution}
-\end{solution}
+Demonstrate the insertion of the keys 23, 38, 19, 40, 29, 43, 12, 27, 11 into a hash tale with collisions resolved by chaining. Let the table have 9 slots, and let the hash function be $h(k)=k \Mod{9}$. \\
 \begin{minipage}{5cm}
 \begin{align*}
   \text{(1) insert}\ 23 \to 23 \Mod{9} &= 5\\
@@ -265,7 +262,7 @@ Demonstrate the insertion of the keys 23, 38, 19, 40, 29, 43, 12, 27, 11 into a 
 
 \newpage
 \subsection*{Problem 7}
-Consider inserting the keys 10, 23, 31, 4, 12, 28, 17, 87, 58 into a hash table of length $m=11$ using open addressing with the auxiliary hash function $h'(k)=k \Mod{m}$. Illustrate the result of inserting these keys using \textbf{linear probing}, using \textbf{quadratic probing} with $c1=1$, and $c2=3$, and using \textbf{double hashing} with $h_2(k)=1+(k \Mod{(m-1)})$. \\
+Consider inserting the keys 10, 23, 31, 4, 12, 28, 17, 87, 58 into a hash table of length $m=11$ using open addressing with the auxiliary hash function $h'(k)=k \Mod{m}$. Illustrate the result of inserting these keys using \textbf{linear probing}, using \textbf{quadratic probing} with $c_1=1$, and $c_2=3$, and using \textbf{double hashing} with $h_2(k)=1+(k \Mod{(m-1)})$. \\
 % begin linear probing
 \begin{minipage}{8cm}
 \begin{align*}
@@ -428,7 +425,7 @@ Consider inserting the keys 10, 23, 31, 4, 12, 28, 17, 87, 58 into a hash table 
 
 
 \subsection*{Problem 8}
-Solve the following assembly-line problem: \\ $e_1=1, e_2=1, x_1=7,x_2=3$ \\ $a_{1,1}=3, a_{1,2}=2,a_{1,3}=5, a_{1,4}=4, a_{1,5}=2$ \\ $a_{2,1}=4, a_{2,2}=2, a_{2,3}=4, a_{2,4}=6, a_{2,5}=4$ \\ $t_{1,1}=1 t_{1,2}=2, t_{1,3}=3, t_{1,4}=1$ \\ $t_{2,1}=2, t_{2,2}=3, t_{2,3}=1, t_{2,4}=2$.
+Solve the following assembly-line problem: \\ $e_1=1, e_2=1, x_1=7,x_2=3$ \\ $a_{1,1}=3, a_{1,2}=2,a_{1,3}=5, a_{1,4}=4, a_{1,5}=2$ \\ $a_{2,1}=4, a_{2,2}=2, a_{2,3}=4, a_{2,4}=6, a_{2,5}=4$ \\ $t_{1,1}=1, t_{1,2}=2, t_{1,3}=3, t_{1,4}=1$ \\ $t_{2,1}=2, t_{2,2}=3, t_{2,3}=1, t_{2,4}=2$.
 \begin{figure}[H]
 \centering
 \begin{minipage}{5cm}
