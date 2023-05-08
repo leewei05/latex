@@ -8,7 +8,6 @@
 \usepackage{tabularray}
 \usepackage[noend]{algorithmic}
 \usepackage{tabularx}
-\usepackage[noend]{algorithmic}
 \usepackage{algorithm}
 \usepackage{arydshln}
 \usepackage{forest}
@@ -18,6 +17,10 @@
 \usepackage{caption}
 \usepackage{subfig}
 \usepackage{graphicx,wrapfig,lipsum}
+% arrays and matrices
+\usepackage{nicematrix}
+% line change inside cells
+\usepackage{makecell}
 %-----------------------------------------------------------
 % Custom commands
 %-----------------------------------------------------------
@@ -452,7 +455,46 @@ Draw M table, S table, and the positions of parenthesis
 \subsection*{Problem 10}
 Determine an LCS of <1, 1, 0, 1, 0, 1> and <0, 0, 1, 1, 0, 1, 1>.
 \begin{solution}
-Draw C table
+
+\begin{figure}[H]
+\centering
+$\begin{NiceArray}{*{9}{c}}[first-row, first-col, hvlines, name=lcs]
+\CodeBefore
+\cellcolor{red!15}{1-5,1-6,1-7,1-8,1-9}
+\cellcolor{red!15}{3-1,4-1,5-1,6-1,8-1}
+\cellcolor{red!15}{8-9,7-8,6-8,5-7,4-6,3-5}
+\Body
+  & i & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 \\
+j &   & y_j & 0 & 0 & 1 & 1 & 0 & 1 & 1\\
+0 & x_i & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+1 & 1   & 0 & \thead{\uparrow \\0} & \thead{\uparrow \\0} & \thead{\nwarrow \\1} & \thead{\nwarrow \\1} & \thead{\leftarrow \\1} & \thead{\nwarrow \\1} & \thead{\nwarrow \\1}\\
+2 & 1   & 0 & \thead{\uparrow \\0} & \thead{\uparrow \\0} & \thead{\nwarrow \\1} & \thead{\nwarrow \\2} & \thead{\leftarrow \\2} & \thead{\nwarrow \\2} & \thead{\nwarrow \\2}\\
+3 & 0   & 0 & \thead{\nwarrow \\1} & \thead{\nwarrow \\1} & \thead{\leftarrow \\1} & \thead{\uparrow \\2} & \thead{\nwarrow \\3} & \thead{\leftarrow \\3} & \thead{\leftarrow \\3}\\
+4 & 1   & 0 & \thead{\uparrow \\1} & \thead{\uparrow \\1} & \thead{\nwarrow \\2} & \thead{\nwarrow \\2} & \thead{\uparrow \\3} & \thead{\nwarrow \\4} & \thead{\nwarrow \\4}\\
+5 & 0   & 0 & \thead{\nwarrow \\1} & \thead{\nwarrow \\2} & \thead{\uparrow \\2} & \thead{\uparrow \\2} & \thead{\nwarrow \\3} & \thead{\uparrow \\4} & \thead{\uparrow \\4}\\
+6 & 1   & 0 & \thead{\uparrow \\1} & \thead{\uparrow \\2} & \thead{\nwarrow \\3} & \thead{\nwarrow \\3} & \thead{\uparrow \\3} & \thead{\nwarrow \\4} & \thead{\nwarrow \\5}\\
+\CodeAfter
+  \tikz \draw (lcs-1-5) circle (2mm) ;
+  \tikz \draw (lcs-1-6) circle (2mm) ;
+  \tikz \draw (lcs-1-7) circle (2mm) ;
+  \tikz \draw (lcs-1-8) circle (2mm) ;
+  \tikz \draw (lcs-1-9) circle (2mm) ;
+  \tikz \draw (lcs-3-1) circle (2mm) ;
+  \tikz \draw (lcs-4-1) circle (2mm) ;
+  \tikz \draw (lcs-5-1) circle (2mm) ;
+  \tikz \draw (lcs-6-1) circle (2mm) ;
+  \tikz \draw (lcs-8-1) circle (2mm) ;
+  \tikz \draw (lcs-8-9) circle (3.5mm) ;
+  \tikz \draw (lcs-7-8) circle (3.5mm) ;
+  \tikz \draw (lcs-6-8) circle (3.5mm) ;
+  \tikz \draw (lcs-5-7) circle (3.5mm) ;
+  \tikz \draw (lcs-4-6) circle (3.5mm) ;
+  \tikz \draw (lcs-3-5) circle (3.5mm) ;
+\end{NiceArray}$
+\caption{c table for LCS}
+\end{figure}
+
+Thus, the longest common sequence is < 1, 1, 0, 1, 1>.
 \end{solution}
 
 \end{document}
