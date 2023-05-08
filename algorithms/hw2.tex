@@ -23,6 +23,7 @@
 \usepackage{nicematrix}
 % line change inside cells
 \usepackage{makecell}
+\usepackage{datetime}
 %-----------------------------------------------------------
 % Custom commands
 %-----------------------------------------------------------
@@ -89,7 +90,9 @@ array element/.style = {
 
 \title{Algorithms: Homework 2}
 \author{Li-Yuan Wei}
-\date{\today}
+% day-month-year
+\newdate{date}{10}{5}{2023}
+\date{\displaydate{date}}
 \maketitle
 
 \subsection*{Problem 1}
