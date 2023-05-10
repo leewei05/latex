@@ -141,7 +141,26 @@ Show how to sort $n$ integers in the range $0$ to $n^2-1$ in $\mathcal{O}(n)$ ti
 \\ [-0.2cm]
 \end{tabularx}
 
-$\proc{TO-BASE-N}$ converts an integer into a base $n$ number. E.g. 100 integers have the largest number of 9999, which can be converted to base 100, $9999 = 99 * 100^1 + 99 * 100^0$. Originally, radix sort will sort 4 digits for 9999. After converting its base to $n$, radix sort will need to sort \textbf{2 digits} $99_{100}$ and $99_{100}$. Another example that the integer 400 will be converted to $4_{100}$. The \textbf{digit} here is not limit from 0 to 9.
+$\proc{TO-BASE-N}$ converts an integer into a base $n$ number. E.g. 100 integers have the largest number of 9999, which can be converted to base 100, $9999 = 99 * 100^1 + 99 * 100^0$. Originally, radix sort will sort 4 digits for 9999. After converting its base to $n$, radix sort will need to sort \textbf{2 digits} $99_{100}$ and $99_{100}$. Another example that the integer 400 will be converted to $4_{100}$. The \textbf{digit} here is not limit from 0 to 9.\\
+
+Solution 2: \\
+\noindent
+\begin{tabularx}{\textwidth}{>{\footnotesize}rX@{}}
+  \\[-1.5ex] \hline
+  \multicolumn{2}{@{}l}{\refstepcounter{algorithm}\label{sort-n-2} $\proc{SORT-N-LINEAR-v2}(A, B, n)$} \\
+  \hline
+   1: & \If $n == 1$ \\
+   2: & \quad \Return \\
+   3: & \For $i \gets 1$ \To $n$ \\
+   4: & \quad $B[i][2] = A[i]\ \%\ n$\\
+   5: & \quad $B[i][1] = A[i] / n$ \\
+   6: & $\proc{RADIX-SORT}(B)$\\
+   7: & \For $i \gets 1$ \To $n$ \\
+   8: & \quad $A[i] = B[i][1] \cdot n + B[i]$ \\
+\hline
+\\ [-0.2cm]
+\end{tabularx}
+Line 1-2 constant time. Line 3-5 $\mathcal{O}(n)$, line 6 $\mathcal{O}(n)$, line 7-8 $\mathcal{O}(n)$.
 \end{solution}
 
 \subsection*{Problem 3}
@@ -150,7 +169,7 @@ Using Figure 8.4 as a model, illustrate the operation of BUCKET-SORT on the arra
 \centering
 \begin{minipage}{5cm}
 \begin{tikzpicture}
-  \foreach \index/\list in {0/{}, 1/{}, 2/{}, 3/{.37,.30}, 4/{.41, .49}, 5/{.50, .56}, 6/{.69, .68}, 7/{.72, .74}, 8/{}, 9/{}, 10/{}} {
+  \foreach \index/\list in {0/{}, 1/{}, 2/{}, 3/{.37,.30}, 4/{.41, .49}, 5/{.50, .56}, 6/{.69, .68}, 7/{.72, .74}, 8/{}, 9/{}} {
    \node[array element] (aux) at (0,-\index) {\index};
    \LinkedList{\list}
 }
@@ -160,7 +179,7 @@ Using Figure 8.4 as a model, illustrate the operation of BUCKET-SORT on the arra
 \qquad
 \begin{minipage}{5cm}
 \begin{tikzpicture}
-  \foreach \index/\list in {0/{}, 1/{}, 2/{}, 3/{.30,.37}, 4/{.41, .49}, 5/{.50, .56}, 6/{.68, .69}, 7/{.72, .74}, 8/{}, 9/{}, 10/{}} {
+  \foreach \index/\list in {0/{}, 1/{}, 2/{}, 3/{.30,.37}, 4/{.41, .49}, 5/{.50, .56}, 6/{.68, .69}, 7/{.72, .74}, 8/{}, 9/{}} {
    \node[array element] (aux) at (0,-\index) {\index};
    \LinkedList{\list}
 }
@@ -171,7 +190,7 @@ Using Figure 8.4 as a model, illustrate the operation of BUCKET-SORT on the arra
 \end{figure}
 
 \begin{solution}
-To get sorted data, chain all the nodes in Figure \ref{bucket} from bucket $0$ to bucket $10$: \\
+To get sorted data, chain all the nodes in Figure \ref{bucket} from bucket $0$ to bucket $9$: \\
 $<.30, .37, .41, .49, .50, .56, .68, .69, .72, .74>$
 \end{solution}
 
@@ -203,7 +222,33 @@ Suppose that you have a “black-box” worst-case linear time median subroutine
 \\ [-0.2cm]
 \end{tabularx}
 
-$T(n) = T(n/2) + \mathcal{O}(n)$($\proc{SPLIT}$). Apply master method $n^{\log_{b}a} = n^{\log_{2}1} = n^0 = 1 < \mathcal{O}(n)$, may apply case 3. First, we find $\epsilon = 1$ where $f(n) = \Omega(n^{(\log_{2}1) + \epsilon})$. Second, we find $c = 1/2$ where $af(n/b) = n/2 \le 1/2n = cf(n)$ is true. Thus, we can conclude that the running time of this algorithm is $\Theta(f(n)) = \Theta(n)$.
+$T(n) = T(n/2) + \mathcal{O}(n)$($\proc{SPLIT}$). Apply master method $n^{\log_{b}a} = n^{\log_{2}1} = n^0 = 1 < \mathcal{O}(n)$, may apply case 3. First, we find $\epsilon = 1$ where $f(n) = \Omega(n^{(\log_{2}1) + \epsilon})$. Second, we find $c = 1/2$ where $af(n/b) = n/2 \le 1/2n = cf(n)$ is true. Thus, we can conclude that the running time of this algorithm is $\Theta(f(n)) = \Theta(n)$.\\
+
+Solution 2: \\
+\noindent
+\begin{tabularx}{\textwidth}{>{\footnotesize}rX@{}}
+  \\[-1.5ex] \hline
+  \multicolumn{2}{@{}l}{\refstepcounter{algorithm}\label{linear-select-v2} $\proc{LINEAR-SELECT}(A, p, r, i)$} \\
+  \hline
+   1: & \If $p == r$ \\
+   2: & \quad \Return $A[p]$\\
+   3: & $q = \proc{BLACK-BOX-MEDIAN}(A, p, r)$ \\
+   4: & \Comment let $A[q]$ be the pivot \\
+   5: & exchange $A[q], A[r]$ \\
+   6: & $q = \proc{PARTITION}(A, p, r)$ \\
+   7: & \Comment the location of $q$ \\
+   8: & $k = q - p + 1$\\
+   9: & \If $i == k$ \\
+   10: & \quad \Return $A[q]$ \\
+   11: & \textbf{else} \If $i < k$ \\
+   12: & \quad \Return $\proc{LINEAR-SELECT}(A, p, q - 1, i)$ \\
+   13: & \textbf{else} \\
+   14: & \quad \Return $\proc{LINEAR-SELECT}(A, q + 1, r, i - k)$\\
+\hline
+\\ [-0.2cm]
+\end{tabularx}
+
+This algorithm is also $\Theta(n)$.
 \end{solution}
 
 \subsection*{Problem 5}
@@ -213,19 +258,19 @@ Let $X[1 .. n]$ and $Y[1 .. n]$ be two arrays, each containing $n$ numbers alrea
 \noindent
 \begin{tabularx}{\textwidth}{>{\footnotesize}rX@{}}
   \\[-1.5ex] \hline
-  \multicolumn{2}{@{}l}{\refstepcounter{algorithm}\label{find-median} $\proc{FIND-MEDIAN}(X,Y,xi,xj,yi,yj,n)$} \\
+  \multicolumn{2}{@{}l}{\refstepcounter{algorithm}\label{find-median} $\proc{FIND-MEDIAN}(X,Y,x_1,x_2,y_1,y_2, n)$} \\
   \hline
    1: & \If $n == 1$\\
    2: & \quad \Comment Both arrays have only one element, pick the smaller one as median\\
    3: & \quad \Return $\proc{MIN}(X[1],Y[1])$\\
-   4: & $xmid = X[(xi + xj) / 2]$ \Comment $X$'s median\\
-   5: & $ymid = Y[(yi + yj) / 2]$ \Comment $Y$'s median \\
+   4: & $xmid = X[\lfloor (x_1 + x_2) / 2\rfloor]$ \\
+   5: & $ymid = Y[\lfloor (y_1 + y_2) / 2\rfloor]$ \\
+   6: & \If $xmid == ymid$ \\
+   7: & \quad \Return $xmid$\\
    6: & \If $xmid < ymid$ \\
-   7: & \quad \Comment median must be greater than $xmid$ and less than $ymid$ \\
-   8: & \quad \Return $\proc{FIND-MEDIAN}(X, Y, xmid + 1, xj, yi, ymid, n / 2)$\\
+   8: & \quad \Return $\proc{FIND-MEDIAN}(X, Y, xmid, x_2, y_1, ymid, n / 2)$\\
    9: & \textbf{else}\\
-   10: & \quad \Comment median must be less than $xmid$ and greater than $ymid$ \\
-   11: & \quad \Return $\proc{FIND-MEDIAN}(X, Y, xi, xmid, ymid + 1, yj, n / 2)$\\
+   11: & \quad \Return $\proc{FIND-MEDIAN}(X, Y, x_1, xmid, ymid, y_2, n / 2)$\\
 \hline
 \\ [-0.2cm]
 \end{tabularx}
@@ -387,16 +432,26 @@ Consider inserting the keys 10, 23, 31, 4, 12, 28, 17, 87, 58 into a hash table 
   &\text{(6) insert}\ 28\to 28\Mod{11} = 6\\
   &\text{(7) insert}\ 17\to 17\Mod{11} = 6\ \times \\
   & h_2(17) = 1 + 17 \Mod{10} = 8\\
-  & 8 + 1 * 8 \Mod{11} = 5\\
-  &\text{insert $17$ to slot $5$}\\
+  & 6 + 1 * 8 \Mod{11} = 3\\
+  &\text{insert $17$ to slot $3$}\\
   &---------------------\\
   &\text{(8) insert}\ 87\to 87\Mod{11} = 10\ \times \\
   & h_2(87) = 1 + 87 \Mod{10} = 8\\
-  & 8 + 1 * 8 \Mod{11} = 5\ \times \\
-  & 8 + 2 * 8 \Mod{11} = 2\\
-  &\text{insert $87$ to slot $2$}\\
+  & 10 + 1 * 8 \Mod{11} = 7\ \times \\
+  & 10 + 2 * 8 \Mod{11} = 4\ \times \\
+  & 10 + 3 * 8 \Mod{11} = 1\ \times \\
+  & 10 + 4 * 8 \Mod{11} = 9\ \times \\
+  & 10 + 5 * 8 \Mod{11} = 6\ \times \\
+  & 10 + 6 * 8 \Mod{11} = 3\ \times \\
+  & 10 + 7 * 8 \Mod{11} = 0\ \\
+  &\text{insert $87$ to slot $0$}\\
   &---------------------\\
-  &\text{(9) insert}\ 58\to 58\Mod{11} = 3\\
+  &\text{(9) insert}\ 58\to 58\Mod{11} = 3\ \times\\
+  & h_2(58) = 1 + 58 \Mod{10} = 9\\
+  & 3 + 1 * 9 \Mod{11} = 1\ \times \\
+  & 3 + 2 * 9 \Mod{11} = 10\ \times \\
+  & 3 + 3 * 9 \Mod{11} = 8  \\
+  &\text{insert $58$ to slot $8$}\\
 \end{align*}
 \end{minipage}
 \qquad
@@ -406,15 +461,15 @@ Consider inserting the keys 10, 23, 31, 4, 12, 28, 17, 87, 58 into a hash table 
 \begin{tikzpicture}
 \coordinate (0);
 \foreach \t[count=\i from 0,evaluate=\i as\j using int(\i+1)] in {
-  x,
-  23,
   87,
-  58,
-  4,
+  23,
+  x,
   17,
+  4,
+  x,
   28,
   12,
-  x,
+  58,
   31,
   10
 }
@@ -450,7 +505,7 @@ $\begin{NiceArray}{*{4}{c}}[first-row, first-col, hvlines]
 \Body
        & 2 & 3 & 4 & 5 \\
 l_1[j] & 1 & 1 & 1 & 1 \\
-l_2[j] & 2 & 2 & 2 & 1
+l_2[j] & 1,2 & 2 & 2 & 1
 \end{NiceArray}$
 \caption{l table}
 \end{minipage}
@@ -471,29 +526,29 @@ $A_1 = A_{5 \times 7}, A_2 = A_{7 \times 3}, A_3 = A_{3 \times 2}, A_4 = A_{2 \t
 \end{align*}
 
 \begin{align*}
-  m[1,3] & =\left\{\begin{array}{cl}
+  m[1,3] & =\textbf{min}\left\{\begin{array}{cl}
       m[1,1] + m[2,3] + p_0\cdot p_1 \cdot p_3 &= 0 + 42 + 5 \cdot 7 \cdot 2 = 112\ (k = 1)\ \checkmark\\
       m[1,2] + m[3,3] + p_0\cdot p_2 \cdot p_3 &= 105 + 0 + 5 \cdot 3 \cdot 2 = 135 \\
   \end{array}\right. \\
-  m[2,4] & =\left\{\begin{array}{cl}
+  m[2,4] & =\textbf{min}\left\{\begin{array}{cl}
       m[2,2] + m[3,4] + p_1\cdot p_2 \cdot p_4 &= 0 + 24 + 7 \cdot 3 \cdot 4 = 108\ \\
       m[2,3] + m[4,4] + p_1\cdot p_3 \cdot p_4 &= 42 + 0 + 7 \cdot 2 \cdot 4 = 98\ (k = 3)\ \checkmark\\
   \end{array}\right. \\
-  m[3,5] & =\left\{\begin{array}{cl}
+  m[3,5] & =\textbf{min}\left\{\begin{array}{cl}
       m[3,3] + m[4,5] + p_2\cdot p_3 \cdot p_5 &= 0 + 40 + 3 \cdot 2 \cdot 5 = 70\ (k = 3)\ \checkmark\\
       m[3,4] + m[5,5] + p_2\cdot p_4 \cdot p_5 &= 24 + 0 + 3 \cdot 4 \cdot 5 = 84\\
   \end{array}\right. \\
-  m[1,4] & =\left\{\begin{array}{cl}
+  m[1,4] & =\textbf{min}\left\{\begin{array}{cl}
       m[1,1] + m[2,4] + p_0\cdot p_1 \cdot p_4 &= 0 + 98 + 5 \cdot 7 \cdot 4 = 238 \\
       m[1,2] + m[3,4] + p_0\cdot p_2 \cdot p_4 &= 105 + 24 + 5 \cdot 3 \cdot 4 = 189\\
       m[1,3] + m[4,4] + p_0\cdot p_3 \cdot p_4 &= 112 + 0 + 5 \cdot 2 \cdot 4 = 152\ (k= 3)\checkmark\\
   \end{array}\right. \\
-  m[2,5] & =\left\{\begin{array}{cl}
+  m[2,5] & =\textbf{min}\left\{\begin{array}{cl}
       m[2,2] + m[3,5] + p_1\cdot p_2 \cdot p_5 &= 0 + 70 + 7 \cdot 3 \cdot 5 = 175 \\
       m[2,3] + m[4,5] + p_1\cdot p_3 \cdot p_5 &= 42 + 40 + 7 \cdot 2 \cdot 5 = 152\ (k = 3)\checkmark\\
       m[2,4] + m[5,5] + p_1\cdot p_4 \cdot p_5 &= 98 + 0 + 7 \cdot 4 \cdot 5 = 238\\
   \end{array}\right. \\
-  m[1,5] & =\left\{\begin{array}{cl}
+  m[1,5] & =\textbf{min}\left\{\begin{array}{cl}
       m[1,1] + m[2,5] + p_0\cdot p_1 \cdot p_5 &= 0 + 152 + 5\cdot 7 \cdot 5 = 327\\
       m[1,2] + m[3,5] + p_0\cdot p_2 \cdot p_5 &= 105 + 70 +5\cdot 3 \cdot 5 = 250\\
       m[1,3] + m[4,5] + p_0\cdot p_3 \cdot p_5 &= 112 + 40 +5\cdot 2 \cdot 5 = 202\ (k =3)\checkmark\\
@@ -552,7 +607,7 @@ j &   & y_j & 0 & 0 & 1 & 1 & 0 & 1 & 1\\
 0 & x_i & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
 1 & 1   & 0 & \thead{\uparrow \\0} & \thead{\uparrow \\0} & \thead{\nwarrow \\1} & \thead{\nwarrow \\1} & \thead{\leftarrow \\1} & \thead{\nwarrow \\1} & \thead{\nwarrow \\1}\\
 2 & 1   & 0 & \thead{\uparrow \\0} & \thead{\uparrow \\0} & \thead{\nwarrow \\1} & \thead{\nwarrow \\2} & \thead{\leftarrow \\2} & \thead{\nwarrow \\2} & \thead{\nwarrow \\2}\\
-3 & 0   & 0 & \thead{\nwarrow \\1} & \thead{\nwarrow \\1} & \thead{\leftarrow \\1} & \thead{\uparrow \\2} & \thead{\nwarrow \\3} & \thead{\leftarrow \\3} & \thead{\leftarrow \\3}\\
+3 & 0   & 0 & \thead{\nwarrow \\1} & \thead{\nwarrow \\1} & \thead{\uparrow \\1} & \thead{\uparrow \\2} & \thead{\nwarrow \\3} & \thead{\leftarrow \\3} & \thead{\leftarrow \\3}\\
 4 & 1   & 0 & \thead{\uparrow \\1} & \thead{\uparrow \\1} & \thead{\nwarrow \\2} & \thead{\nwarrow \\2} & \thead{\uparrow \\3} & \thead{\nwarrow \\4} & \thead{\nwarrow \\4}\\
 5 & 0   & 0 & \thead{\nwarrow \\1} & \thead{\nwarrow \\2} & \thead{\uparrow \\2} & \thead{\uparrow \\2} & \thead{\nwarrow \\3} & \thead{\uparrow \\4} & \thead{\uparrow \\4}\\
 6 & 1   & 0 & \thead{\uparrow \\1} & \thead{\uparrow \\2} & \thead{\nwarrow \\3} & \thead{\nwarrow \\3} & \thead{\uparrow \\3} & \thead{\nwarrow \\4} & \thead{\nwarrow \\5}\\
@@ -577,7 +632,7 @@ j &   & y_j & 0 & 0 & 1 & 1 & 0 & 1 & 1\\
 \caption{c table for LCS}
 \end{figure}
 
-Thus, the longest common sequence is < 1, 1, 0, 1, 1>.
+Thus, LCS length is 5 and LCS is < 1, 1, 0, 1, 1>.
 \end{solution}
 
 \end{document}
