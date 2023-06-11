@@ -98,6 +98,16 @@ array element/.style = {
 \subsection*{Problem 1}
 Give an $\mathcal{O}(n^2)$-time algorithm to find the longest monotonically increasing subsequence of $n$ numbers.
 \begin{solution}
+  Psuedocode for an $\mathcal{O}(n^2)$-time algorithm:\\
+\noindent
+\begin{tabularx}{\textwidth}{>{\footnotesize}rX@{}}
+  \\[-1.5ex] \hline
+  \multicolumn{2}{@{}l}{\refstepcounter{algorithm}\label{mono-n-square} $\proc{LONGEST-INCREASING-SUBSEQUENCE}(A, n)$} \\
+  \hline
+   1: & \\
+\hline
+\\ [-0.2cm]
+\end{tabularx}
 \end{solution}
 
 \subsection*{Problem 2}
@@ -135,50 +145,70 @@ Give a dynamic-programming solution to the 0-1 knapsack problem that runs in $\m
 
 \subsection*{Problem 5}
 Assume there are only 7 characters A, B, C, D, E, F and G in a document, with occurrences of 6, 4, 8, 3, 2, 1 and 5, respectively. Please calculate the total number of bits of this document after applying the Huffman coding.
-\begin{solution}
-C: 8, 0
-A: 6, 10
-G: 5,
-B: 4,
-D: 3,
-E: 2,
-F: 1
+
+\begin{minipage}{5cm}
+\begin{align*}
+  \text{C: 8 }& |\ 11 \\
+  \text{A: 6 }& |\ 01 \\
+  \text{G: 5 }& |\ 101 \\
+  \text{B: 4 }& |\ 100 \\
+  \text{D: 3 }& |\ 001 \\
+  \text{E: 2 }& |\ 0000 \\
+  \text{F: 1 }& |\ 0001 \\
+\end{align*}
+\end{minipage}
+\qquad
+\begin{minipage}{5cm}
 \begin{figure}[H]
 \centering
-\begin{minipage}{5cm}
-\centering
-\begin{tikzpicture}[iv/.style={draw,circle,minimum size=20pt,inner
+\begin{tikzpicture}[iv/.style={draw,circle,minimum size=25pt,inner
 sep=0pt,text=black},ev/.style={draw,rectangle,minimum
 size=20pt,inner sep=0pt,text=black}]
-\node[iv]{31}
-  child {node[iv]{18}
-         child {node[iv]{11}
-                child {node[iv]{6}
-                       child {node[iv]{3}
-                              child {node[ev]{E(1)}}
-                              child {node[ev]{C(2)}}
-                             }
-                       child {node[ev]{B(3)}}
-                      }
-                child {node[ev]{D(5)}}
-                }
-         child [missing]
-         child {node[iv]{7}
-         child {node[ev]{A(4)}}
-         child {node[ev]{G(3)}}
-               }
-        edge from parent node[above]{O}
-        }
+\node[iv]{29}
+  child {node[iv]{12}
+          child {node[iv]{6}
+                 child {node[iv]{3}
+                        child {node[ev]{F:1}
+                          edge from parent node[above]{0}
+                        }
+                        child {node[ev]{E:2}
+                          edge from parent node[above]{1}
+                        }
+                  edge from parent node[above]{0}
+                 }
+                 child {node[ev]{D:3}
+                  edge from parent node[above]{1}
+                 }
+            edge from parent node[above]{0}
+          }
+          child {node[ev]{A:6}
+            edge from parent node[above]{1}
+          }
+          edge from parent node[above]{0}
+          }
   child [missing]
-  child [missing]
-  child {node[iv]{13}
-         child {node[ev]{F(6)}}
-         child {node[ev]{H(7)}}
+  child {node[iv]{17}
+            child {node[iv]{9}
+              child {node[ev]{B:4}
+                edge from parent node[above]{0}
+              }
+              child {node[ev]{G:5}
+                edge from parent node[above]{1}
+              }
+              edge from parent node[above]{0}
+            }
+          child {node[ev]{C:8}
+            edge from parent node[above]{1}
+          }
+          edge from parent node[above]{1}
         };
 \end{tikzpicture}
 \caption{Huffman code tree}
-\end{minipage}
 \end{figure}
+\end{minipage}
+
+\begin{solution}
+  total bits: $1 \cdot 4 + 2 \cdot 4 + 3 \cdot 3 + 4 \cdot 3 + 5 \cdot 3 + 6 \cdot 2 + 8 \cdot 2 = 76$
 \end{solution}
 
 \subsection*{Problem 6}
@@ -214,11 +244,77 @@ $\begin{NiceArray}{*{5}{c}}[first-row, first-col, hvlines, name=amatrix]
 
 \subsection*{Problem 7}
 Show the $d$ and $\pi$ values that result from running the breadth-first search on the same graph using vertex 3 as the source.
+\begin{figure}[H]
+\centering
+\begin{minipage}{5cm}
+\centering
+\begin{tikzpicture}[anchor=base, node distance={15mm}, thick, main/.style = {draw, circle}]
+\node[main] (3) {$3$};
+\node[main] (5) [above of=3]{$5$};
+\node[main] (4) [left of=5]{$4$};
+\node[main] (2) [left of=3]{$2$};
+%\node[main] (1) [above left of=2]{$1$};
+\path (2) -- (4) node[midway, left of=2, circle, thick, draw] (1) {$1$};
+
+\draw[] (1) -- (4);
+\draw[] (1) -- (2);
+\draw[] (2) -- (4);
+\draw[] (2) -- (3);
+\draw[] (3) -- (5);
+\draw[] (4) -- (5);
+\end{tikzpicture}
+\caption{Original Graph}
+\end{minipage}
+\qquad
+\begin{minipage}{5cm}
+\centering
+$\begin{NiceArray}{*{5}{c}}[first-row, first-col, hvlines]
+\CodeBefore
+\Body
+ v & 1 & 2 & 3 & 4 & 5 \\
+ d & 2 & 1 & 0 & 2 & 1 \\
+ \pi & 2 & 3 & \textbf{NIL} & 2 & 3
+\end{NiceArray}$
+\end{minipage}
+\end{figure}
+
 \begin{solution}
+$v$ stands for verticies in the graph. $d$ is the search distance, while $\pi$ is vertex $v$'s parent node. Vertex 3 is the starting point, thus, it has no parent node.
 \end{solution}
 
 \subsection*{Problem 8}
 (a) Show how depth-first search works on the graph at the bottom. Assume that the for loop of lines 5—7 of the DFS procedure considers the vertices in alphabetical order, and assume that each adjacency list is ordered alphabetically. Show the discovery and finishing time for each vertex, and show the classification of each edge. (b) According to (a), show the corresponding topological sort of this graph.
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[node distance={15mm}, thick, main/.style = {draw, circle}]
+\node[main] (x) {$x$};
+\node[main] (y) [above left of=x]{$y$};
+\node[main] (w) [left of=y]{$w$};
+\node[main] (v) [above right of=x]{$v$};
+\node[main] (r) [right of=v]{$r$};
+\node[main] (z) [above of=x]{$z$};
+\node[main] (s) [above of=z]{$s$};
+\node[main] (t) [above left of=r]{$t$};
+\node[main] (u) [above left of=y]{$u$};
+\node[main] (q) [above left of=s]{$q$};
+
+\draw[->] (x) -- (y);
+\draw[->] (w) -- (y);
+\draw[->] (u) -- (y);
+\draw[->] (s) -- (y);
+\draw[->] (u) -- (w);
+\draw[->] (s) -- (z);
+\draw[->] (s) -- (v);
+\draw[->] (z) -- (v);
+\draw[->] (t) -- (v);
+\draw[->] (r) -- (v);
+\draw[->] (r) -- (t);
+\draw[->] (q) -- (u);
+\draw[->] (q) -- (s);
+\end{tikzpicture}
+\caption{Original Graph}
+\end{figure}
+
 \begin{solution}
 \end{solution}
 
@@ -229,7 +325,63 @@ Find the strongest components of the following graph:
 
 \subsection*{Problem 10}
 Find the minimal spanning tree of the following graph, using (a) Kruskal’s algorithm, (b) Prim’s algorithm (using q as the starting vertex). Please give the selected edge in order during the spanning tree construction process
+\begin{figure}[H]
+\centering
+\begin{minipage}{5cm}
+\centering
+\begin{tikzpicture}[node distance={15mm}, thick, main/.style = {draw, circle}]
+\node[main] (y) [left of=w]{$y$};
+\node[main] (z) {$z$};
+\node[main] (w) [right of=y]{$w$};
+\node[main] (x) [above of=z]{$x$};
+\node[main] (s) [above right of=y]{$s$};
+\node[main] (t) [above of=x]{$t$};
+\node[main] (q) [above left of=t]{$q$};
+
+\draw[] (q) -- node[midway, above left]{2}(s);
+\draw[] (q) -- node[midway, above right]{9}(t);
+\draw[] (s) -- node[midway, above]{6}(t);
+\draw[] (s) -- node[midway, above left]{8}(y);
+\draw[] (s) -- node[midway, above right]{4}(w);
+\draw[] (y) -- node[midway, above]{10}(w);
+\draw[] (t) -- node[midway, right]{5}(x);
+\draw[] (x) -- node[midway, above]{1}(w);
+\draw[] (x) -- node[midway, right]{7}(z);
+\draw[] (w) -- node[midway, below left]{3}(z);
+\end{tikzpicture}
+\caption{Original Graph}
+\end{minipage}
+\qquad
+\begin{minipage}{5cm}
+\centering
+\begin{tikzpicture}[node distance={15mm}, thick, main/.style = {draw, circle}]
+\node[main] (y) [left of=w]{$y$};
+\node[main] (z) {$z$};
+\node[main] (w) [right of=y]{$w$};
+\node[main] (x) [above of=z]{$x$};
+\node[main] (s) [above right of=y]{$s$};
+\node[main] (t) [above of=x]{$t$};
+\node[main] (q) [above left of=t]{$q$};
+
+\draw[ultra thick] (x) -- node[black, fill=orange!20, inner sep=1.5, circle, midway, above]{1}(w);
+\draw[ultra thick] (q) -- node[black, fill=orange!20,  inner sep=1.5,circle, midway, above left]{2}(s);
+\draw[ultra thick] (w) -- node[black, fill=orange!20, inner sep=1.5,circle, midway, below left]{3}(z);
+\draw[ultra thick] (s) -- node[black, fill=orange!20,inner sep=1.5, circle, midway, above right]{4}(w);
+\draw[ultra thick] (t) -- node[black, fill=orange!20,inner sep=1.5, circle, midway, right]{5}(x);
+\draw[ultra thick] (s) -- node[black, fill=orange!20,inner sep=1.5, circle, midway, above left]{6}(y);
+
+\draw[] (q) -- node[midway, above right]{9}(t);
+\draw[] (s) -- node[midway, above]{6}(t);
+\draw[] (y) -- node[midway, above]{10}(w);
+\draw[] (x) -- node[midway, right]{7}(z);
+\end{tikzpicture}
+\caption{Minimal Spanning Tree: Kruskal's algorithm}
+\label{fig:kruskal}
+\end{minipage}
+\end{figure}
+
 \begin{solution}
+  Kruskal's algorithm: first sort all edges in the graph in an increasing manner, then pick the lowest cost edge every step until every vertex is picked. The final result is shown in Figure \ref{fig:kruskal}.
 \end{solution}
 \end{document}
 
