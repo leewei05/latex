@@ -104,10 +104,28 @@ Give an $\mathcal{O}(n^2)$-time algorithm to find the longest monotonically incr
   \\[-1.5ex] \hline
   \multicolumn{2}{@{}l}{\refstepcounter{algorithm}\label{mono-n-square} $\proc{LONGEST-INCREASING-SUBSEQUENCE}(A, n)$} \\
   \hline
-   1: & \\
+  1: & B = $\proc{MERGE-SORT(A)}$ \Comment B is a sorted copy of A in ascending order\\
+  2: & C[n+1, n+1] \Comment create 2-D array C with val, dir fields\\
+  3: & \For $i \gets 0$ \To $n$ \\
+  4: & \quad \For $j \gets 0$ \To $n$ \\
+  5: & \quad \quad C[i][j] = 0.0 \Comment initialize each address, input can be real numbers\\
+  6: & \For $i \gets 1$ \To $n$ \\
+  7: & \quad \For $j \gets 1$ \To $n$ \\
+  8: & \quad \quad \Do \If B[i] $\le$ A[j] \\
+  9: & \quad \quad \quad C[i][j].val = C[i - 1][j - 1].val + 1 \\
+  10: & \quad \quad \quad C[i][j].dir = $\nwarrow$ \\
+  11: & \quad \quad \textbf{else} \Comment B[i] > A[j] no increasing\\
+  12: & \quad \quad \quad \If C[i - 1][j].val $<$ C[i][j - 1].val \\
+  13: & \quad \quad \quad \quad C[i][j].val = C[i][j - 1].val \\
+  14: & \quad \quad \quad \quad C[i][j].dir = $\leftarrow$ \\
+  15: & \quad \quad \quad \textbf{else} \\
+  16: & \quad \quad \quad \quad C[i][j].val = C[i - 1][j].val \\
+  17: & \quad \quad \quad \quad C[i][j].dir = $\uparrow$ \\
+  18: & \Return C \Comment C[n][n].val is the length of the longest increasing subsequence of n\\
 \hline
 \\ [-0.2cm]
 \end{tabularx}
+Line 1 has time complexity of merge sort, which is $\mathcal{O}(n \lg n)$. Line 2 has constant time complexity. Line 3-5 has time complexity of $\mathcal{O}(n^2)$, same as line 6-17. Thus, the overall time comlexity is dominated by $\mathcal{O}(n^2)$.
 \end{solution}
 
 \subsection*{Problem 2}
@@ -134,6 +152,32 @@ The optimal solution is to chose the following events: <1, 2, 5, 6, 8>.
 
 \subsection*{Problem 3}
 Not just any greedy approach to the activity-selection problem produces a maximum-size set of mutually compatible activities. (a) Give an example to show that the approach of selecting the activity of least duration from those that are compatible with previously selected activities does not work. (b) Do the same for the approaches of always selecting the compatible activity that overlaps with the fewest other remaining activities by selecting the compatible remaining activity with the earliest start time.
+
+\begin{figure}[H]
+\centering
+\begin{minipage}{5cm}
+\centering
+$\begin{NiceArray}{*{5}{c}}[first-row, first-col, hvlines]
+\CodeBefore
+\Body
+i  & 1 & 2 & 3 & 4 & 5 \\
+s_i & 1 & 2 & 3 & 4 & 5 \\
+f_i & 2 & 4 & 5 & 7 & 8 \\
+\end{NiceArray}$
+\caption{select least duration}
+\end{minipage}
+\qquad
+\begin{minipage}{5cm}
+$\begin{NiceArray}{*{5}{c}}[first-row, first-col, hvlines]
+\CodeBefore
+\Body
+i  & 1 & 2 & 3 & 4 & 5 \\
+s_i & 1 & 2 & 3 & 4 & 5 \\
+f_i & 2 & 4 & 5 & 7 & 8 \\
+\end{NiceArray}$
+\caption{select fewest overlaps}
+\end{minipage}
+\end{figure}
 
 \begin{solution}
 \end{solution}
@@ -169,38 +213,38 @@ size=20pt,inner sep=0pt,text=black}]
           child {node[iv]{6}
                  child {node[iv]{3}
                         child {node[ev]{F:1}
-                          edge from parent node[above]{0}
+                          edge from parent node[left]{0}
                         }
                         child {node[ev]{E:2}
-                          edge from parent node[above]{1}
+                          edge from parent node[right]{1}
                         }
-                  edge from parent node[above]{0}
+                  edge from parent node[left]{0}
                  }
                  child {node[ev]{D:3}
-                  edge from parent node[above]{1}
+                  edge from parent node[right]{1}
                  }
-            edge from parent node[above]{0}
+            edge from parent node[left]{0}
           }
           child {node[ev]{A:6}
-            edge from parent node[above]{1}
+            edge from parent node[right]{1}
           }
-          edge from parent node[above]{0}
+          edge from parent node[left]{0}
           }
   child [missing]
   child {node[iv]{17}
             child {node[iv]{9}
               child {node[ev]{B:4}
-                edge from parent node[above]{0}
+                edge from parent node[left]{0}
               }
               child {node[ev]{G:5}
-                edge from parent node[above]{1}
+                edge from parent node[right]{1}
               }
-              edge from parent node[above]{0}
+              edge from parent node[left]{0}
             }
           child {node[ev]{C:8}
-            edge from parent node[above]{1}
+            edge from parent node[right]{1}
           }
-          edge from parent node[above]{1}
+          edge from parent node[right]{1}
         };
 \end{tikzpicture}
 \caption{Huffman code tree}
@@ -286,7 +330,9 @@ $v$ stands for verticies in the graph. $d$ is the search distance, while $\pi$ i
 (a) Show how depth-first search works on the graph at the bottom. Assume that the for loop of lines 5—7 of the DFS procedure considers the vertices in alphabetical order, and assume that each adjacency list is ordered alphabetically. Show the discovery and finishing time for each vertex, and show the classification of each edge. (b) According to (a), show the corresponding topological sort of this graph.
 \begin{figure}[H]
 \centering
-\begin{tikzpicture}[node distance={15mm}, thick, main/.style = {draw, circle}]
+\begin{minipage}{5cm}
+\centering
+\begin{tikzpicture}[node distance={15mm}, thick, main/.style = {draw, circle}, name=p8]
 \node[main] (x) {$x$};
 \node[main] (y) [above left of=x]{$y$};
 \node[main] (w) [left of=y]{$w$};
@@ -313,13 +359,91 @@ $v$ stands for verticies in the graph. $d$ is the search distance, while $\pi$ i
 \draw[->] (q) -- (s);
 \end{tikzpicture}
 \caption{Original Graph}
+\end{minipage}
+\qquad
+\begin{minipage}{8cm}
+\centering
+\begin{tikzpicture}[node distance={25mm}, thick, main/.style = {draw, ellipse}, name=p8]
+\node[main] (x8) [label=x]{19/20};
+\node[main] (y8) [above left of=x8, label=below:y]{5/6};
+\node[main] (w8) [left of=y8, label=below:w]{11/12};
+\node[main] (v8) [above right of=x8, label=below:v]{3/4};
+\node[main] (r8) [right of=v8, label=below:r]{15/18};
+\node[main] (z8) [above of=x8, label=below:z]{7/8};
+\node[main] (s8) [above of=z8, label=s]{2/9};
+\node[main] (t8) [above right of=v8, label=t]{16/17};
+\node[main] (u8) [above left of=y8, label=u]{10/13};
+\node[main] (q8) [above left of=s8, label=q]{1/14};
+
+\draw[->] (x8) -- node[circle,inner sep=0.8, fill=blue!20, right]{C}(y8);
+\draw[->] (w8) -- node[circle,inner sep=0.8, fill=orange!20, above]{T}(y8);
+\draw[->] (u8) -- node[circle,inner sep=0.8, fill=green!20, above]{F}(y8);
+\draw[->] (s8) -- node[circle,inner sep=0.8, fill=orange!20, left]{T}(y8);
+\draw[->] (u8) -- node[circle,inner sep=0.8, fill=orange!20, left]{T}(w8);
+\draw[->] (s8) -- node[circle,inner sep=0.8, fill=orange!20, left]{T}(z8);
+\draw[->] (s8) -- node[circle,inner sep=0.8, fill=green!20, right]{F}(v8);
+\draw[->] (z8) -- node[circle,inner sep=0.8, fill=orange!20, above]{T}(v8);
+\draw[->] (t8) -- node[circle,inner sep=0.8, fill=blue!20, left]{C}(v8);
+\draw[->] (r8) -- node[circle,inner sep=0.8, fill=blue!20, above]{C}(v8);
+\draw[->] (r8) -- node[circle,inner sep=0.8, fill=orange!20, right]{T}(t8);
+\draw[->] (q8) -- node[circle,inner sep=0.8, fill=orange!20, left]{T}(u8);
+\draw[->] (q8) -- node[circle,inner sep=0.8, fill=orange!20, above]{T} (s8);
+\end{tikzpicture}
+\caption{(a)}
+\end{minipage}
 \end{figure}
 
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[node distance={15mm}, thick, main/.style = {draw, circle}, name=p82]
+  \node[main] (xt)[label=below:19/20] {x};
+  \node[main] (rt)[right of=xt, label=below:15/18] {r};
+  \node[main] (tt)[right of=rt, label=below:16/17] {t};
+
+
+
+\end{tikzpicture}
+\caption{(b)}
+\end{figure}
 \begin{solution}
 \end{solution}
 
 \subsection*{Problem 9}
 Find the strongest components of the following graph:
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[node distance={15mm}, thick, main/.style = {draw, circle}, name=p9]
+\node[main] (z9) {$z$};
+\node[main] (w9) [above of=z9]{$w$};2
+\node[main] (t9) [above left of=z9]{$t$};
+\node[main] (u9) [above right of=z9]{$u$};
+\node[main] (y9) [above of=w9]{$y$};
+\node[main] (q9) [above left of=y9]{$q$};
+\node[main] (x9) [left of=t9]{$x$};
+\node[main] (s9) [above left of=t9]{$s$};
+\node[main] (v9) [above right of=u9]{$v$};
+\node[main] (r9) [right of=u9]{$r$};
+
+\draw[->] (z9) to [out=45,in=300,looseness=1.5] (w9);
+\draw[->] (w9) -- (u9);
+\draw[->] (w9) -- (t9);
+\draw[->] (y9) -- (w9);
+\draw[->] (y9) -- (q9);
+\draw[->] (y9) -- (u9);
+\draw[->] (t9) -- (y9);
+\draw[->] (q9) -- (t9);
+\draw[->] (t9) -- (s9);
+\draw[->] (s9) -- (x9);
+\draw[->] (t9) -- (x9);
+\draw[->] (r9) -- (u9);
+\draw[->] (v9) -- (r9);
+\draw[->] (u9) -- (v9);
+
+\end{tikzpicture}
+\caption{Original Graph}
+\label{fig:p9}
+\end{figure}
+
 \begin{solution}
 \end{solution}
 
@@ -329,7 +453,7 @@ Find the minimal spanning tree of the following graph, using (a) Kruskal’s alg
 \centering
 \begin{minipage}{5cm}
 \centering
-\begin{tikzpicture}[node distance={15mm}, thick, main/.style = {draw, circle}]
+\begin{tikzpicture}[node distance={15mm}, thick, main/.style = {draw, circle}, name=p10]
 \node[main] (y) [left of=w]{$y$};
 \node[main] (z) {$z$};
 \node[main] (w) [right of=y]{$w$};
@@ -350,6 +474,7 @@ Find the minimal spanning tree of the following graph, using (a) Kruskal’s alg
 \draw[] (w) -- node[midway, below left]{3}(z);
 \end{tikzpicture}
 \caption{Original Graph}
+\label{fig:p10}
 \end{minipage}
 \qquad
 \begin{minipage}{5cm}
@@ -381,7 +506,7 @@ Find the minimal spanning tree of the following graph, using (a) Kruskal’s alg
 \end{figure}
 
 \begin{solution}
-  Kruskal's algorithm: first sort all edges in the graph in an increasing manner, then pick the lowest cost edge every step until every vertex is picked. The final result is shown in Figure \ref{fig:kruskal}.
+  Kruskal's algorithm: first sort all edges in the graph in increasing order, then pick the lowest cost edge every step until every vertex is connected to our tree. The final result is shown in Figure \ref{fig:kruskal}.
 \end{solution}
 \end{document}
 
